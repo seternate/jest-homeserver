@@ -1,0 +1,17 @@
+services:
+
+  # Image specifies healthchecks
+  dashboard:
+    image: b4bz/homer:v24.11.5
+    container_name: dashboard
+    labels:
+      traefik.enable: true
+      traefik.http.routers.dashboard.middlewares: authentik@docker
+    environment:
+     TZ: Europe/London
+    user: 1000:1000
+    volumes:
+    - ./config:/www/assets:ro
+    networks:
+    - traefik
+    restart: unless-stopped

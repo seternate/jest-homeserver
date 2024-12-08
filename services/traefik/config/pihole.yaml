@@ -1,0 +1,28 @@
+http:
+  routers:
+    pihole:
+      entryPoints:
+      - websecure
+      service: pihole-app
+      middlewares:
+      - pihole-redirectregex
+      - pihole-addprefix
+      rule: Host(`pihole.{{ env "DOMAIN" }}`)
+      tls:
+        certResolver: caresolver
+
+  middlewares:
+    pihole-addprefix:
+      addPrefix:
+        prefix: /admin
+    pihole-redirectregex:
+      redirectRegex:
+        regex: /admin/$
+        replacement: /
+
+  services:
+    pihole-app:
+      loadBalancer:
+        servers:
+        - url: http://{{ env "PIHOLE_IP" }}
+        passHostHeader: true

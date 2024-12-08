@@ -1,0 +1,28 @@
+services:
+
+  emby:
+    image: emby/embyserver:4.8.10.0
+    container_name: emby
+    labels:
+      traefik.enable: true
+      traefik.http.services.emby.loadbalancer.server.port: 8096
+    environment:
+      UID: 1000
+      GID: 1000
+      GIDLIST: ${EMBY_UID_VIDEO},${EMBY_UID_RENDER}
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8096/emby/system/info/public || exit 1"]
+      start_period: 60s
+      start_interval: 5s
+      interval: 60s
+      timeout: 5s
+      retries: 3
+    volumes:
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/emby}/config:/config
+    - ${EMBY_TV_SHOW_DIRECTORY:-./tvshow}:/mnt/tvshow:ro
+    - ${EMBY_MOVIE_DIRECTORY:-./movie}:/mnt/movie:ro
+    devices:
+    - /dev/dri:/dev/dri # VAAPI/NVDEC/NVENC render nodes
+    networks:
+    - traefik
+    restart: unless-stopped

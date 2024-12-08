@@ -1,0 +1,25 @@
+services:
+
+  # Image specifies healthchecks
+  filebrowser:
+    image: filebrowser/filebrowser:v2.31.2
+    container_name: filebrowser
+    labels:
+      traefik.enable: true
+      traefik.http.routers.filebrowser.middlewares: authentik@docker
+    entrypoint: ""
+    # Auth settings can only be set via cli: https://github.com/filebrowser/filebrowser/issues/2745#issuecomment-2046607848
+    command: >
+      /bin/sh -c "/filebrowser config set --auth.method=proxy --auth.header=X-authentik-username && /filebrowser"
+    volumes:
+    - ./config/.filebrowser.json:/.filebrowser.json
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/filebrowser}/database:/database
+    - ${FILEBROWSER_DIRECTORY_LEVIN:-./levin}:/srv/levin
+    - ${FILEBROWSER_DIRECTORY_KATRIN:-./katrin}:/srv/katrin
+    - ${FILEBROWSER_DIRECTORY_PUBLIC:-./public}:/srv/public
+    - ${FILEBROWSER_DIRECTORY_SHARE:-./share}:/srv/share
+    - ${FILEBROWSER_DIRECTORY_DOWNLOAD:-./download}:/srv/download
+    - ${FILEBROWSER_DIRECTORY_EXTRACT:-./extract}:/srv/extract
+    networks:
+    - traefik
+    restart: unless-stopped

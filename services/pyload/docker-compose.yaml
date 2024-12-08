@@ -1,0 +1,64 @@
+services:
+
+  # Image specifies healthchecks
+  pyloadgluetun:
+    image: qmcgaw/gluetun:v3.39.1
+    container_name: pyloadgluetun
+    labels:
+      traefik.enable: true
+      traefik.http.routers.pyload.rule: Host(`pyload.${DOMAIN}`)
+      traefik.http.routers.pyload.middlewares: authentik@docker
+      traefik.http.routers.pyload.service: pyload
+      traefik.http.services.pyload.loadbalancer.server.port: 8000
+    environment:
+      TZ: Europe/Berlin
+      HTTP_CONTROL_SERVER_ADDRESS: :8001
+      VPN_SERVICE_PROVIDER: cyberghost
+      SERVER_COUNTRIES: Germany
+    secrets:
+    - openvpn_user
+    - openvpn_password
+    - openvpn_clientcrt
+    - openvpn_clientkey
+    devices:
+    - /dev/net/tun:/dev/net/tun
+    cap_add:
+    - NET_ADMIN
+    ports:
+    # Needed for Click'n'Load to be only accessable from within LAN
+    - 9666:9666
+    networks:
+    - traefik
+    restart: unless-stopped
+
+  pyload:
+    image: linuxserver/pyload-ng:version-0.5.0b3.dev87
+    container_name: pyload
+    environment:
+      TZ: Europe/London
+      PUID: 1000
+      PGID: 1000
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent http://127.0.0.1:8000/ || exit 1"]
+      start_period: 60s
+      start_interval: 5s
+      interval: 60s
+      timeout: 5s
+      retries: 3
+    volumes:
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/pyload}/config:/config
+    - ${PYLOAD_DOWNLOAD_FOLDER}/downloads:/downloads
+    - ${PYLOAD_EXTRACT_FOLDER}/extracted:/extracted
+    network_mode: service:pyloadgluetun
+    restart: unless-stopped
+
+secrets:
+
+  openvpn_user:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/pyload}/vpn_user
+  openvpn_password:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/pyload}/vpn_password
+  openvpn_clientcrt:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/pyload}/client.crt
+  openvpn_clientkey:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/pyload}/client.key

@@ -1,0 +1,40 @@
+- name: setup unattended-upgrades
+  become: true
+  ansible.builtin.import_role:
+    name: hifis.unattended-upgrades
+  vars:
+    unattended_cache_valid_time: 3600
+    unattended_origins_patterns: "{{ unattended_upgrades.origin_patterns }}"
+    unattended_package_blacklist: []
+    unattended_autofix_interrupted_dpkg: true
+    unattended_minimal_steps: true
+    unattended_install_on_shutdown: false
+    unattended_mail: false
+    unattended_mail_sender: false
+    unattended_mail_only_on_error: false
+    unattended_mail_report: false
+    unattended_remove_unused_dependencies: false
+    unattended_remove_new_unused_dependencies: true
+    unattended_remove_unused_kernel_packages: false
+    unattended_automatic_reboot: "{{ unattended_upgrades.automatic_reboot }}"
+    unattended_automatic_reboot_time: "{{ unattended_upgrades.automatic_reboot_time }}"
+    unattended_ignore_apps_require_restart: false
+    unattended_syslog_enable: true
+    #unattended_syslog_facility: "daemon"
+    unattended_update_package_list: 1
+    #unattended_download_upgradeable: 0
+    unattended_autoclean_interval: 7
+    #unattended_clean_interval: 0
+    #unattended_verbose: 0
+    #unattended_random_sleep: 0
+    unattended_dpkg_options: []
+    #unattended_dpkg_options:
+    #  - "--force-confdef"
+    #  - "--force-confold"
+    #unattended_dl_limit: 70
+    unattended_only_on_ac_power: false
+    unattended_systemd_timer_override: false
+    unattended_apt_daily_oncalendar: "{{ unattended_upgrades.daily_oncalendar }}"
+    unattended_apt_daily_randomizeddelaysec: "{{ unattended_upgrades.daily_randomizeddelaysec }}"
+    unattended_apt_daily_upgrade_oncalendar: "{{ unattended_upgrades.daily_upgrade_oncalendar }}"
+    unattended_apt_daily_upgrade_randomizeddelaysec: "{{ unattended_upgrades.daily_upgrade_randomizeddelaysec }}"

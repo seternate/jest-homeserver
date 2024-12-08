@@ -1,0 +1,27 @@
+- name: deploy services
+  hosts: jest
+
+  tasks:
+    - name: clone service repository
+      become: yes
+      ansible.builtin.git:
+        single_branch: yes
+        repo: "{{ services.git.repository }}"
+        dest: "{{ storage.jest.path }}/{{ services.directory }}"
+        version: "{{ services.git.version }}"
+
+    - name: download service-data from S3
+      ansible.builtin.import_tasks: ../tasks/download-service-data-s3.yaml
+
+    - name: download service-secrets from S3
+      ansible.builtin.import_tasks: ../tasks/download-service-secrets-s3.yaml
+
+    - name: create external docker network for traefik
+      community.docker.docker_network:
+        name: services_traefik
+
+    - name: configure & deploy services
+      ansible.builtin.import_tasks: ../tasks/configure-deploy-services.yaml
+
+    - name: configure & deploy Bitwarden
+      ansible.builtin.import_tasks: ../tasks/configure-deploy-bitwarden.yaml

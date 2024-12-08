@@ -1,0 +1,24 @@
+services:
+
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:2024.11.3
+    container_name: homeassistant
+    labels:
+      traefik.enable: true
+      traefik.http.services.homeassistant.loadbalancer.server.port: 8123
+    environment:
+      TZ: Europe/Berlin
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8123/ || exit 1"]
+      start_period: 60s
+      start_interval: 5s
+      interval: 60s
+      timeout: 5s
+      retries: 3
+    volumes:
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/homeassistant}/config:/config
+    ports:
+    - 8123:8123
+    networks:
+    - traefik
+    restart: unless-stopped

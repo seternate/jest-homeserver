@@ -1,0 +1,97 @@
+users_update_password:
+  - username: root
+    password: "{{ vault_user_root_password }}"
+  - username: jest
+    password: "{{ vault_user_jest_password }}"
+
+unattended_upgrades:
+  origin_patterns:
+  - 'origin=Debian,codename=${distro_codename},label=Debian'
+  - 'origin=Debian,codename=${distro_codename}-updates,label=Debian'
+  - 'origin=Debian,codename=${distro_codename},label=Debian-Security'
+  - 'origin=Debian,codename=${distro_codename}-security,label=Debian-Security'
+  - 'origin=Docker,label=Docker CE,archive=${distro_codename}'
+  automatic_reboot: true
+  automatic_reboot_time: 04:30
+  daily_oncalendar: "*-*-* 2:00:00 Europe/Berlin"
+  daily_randomizeddelaysec: "30m"
+  daily_upgrade_oncalendar: "*-*-* 3:00:00 Europe/Berlin"
+  daily_upgrade_randomizeddelaysec: "30m"
+
+storage:
+  jest:
+    path: /mnt/jest
+    device: /dev/sdb1 #UUID=8a187ab5-c51c-4854-bd73-70a33955cebd
+  jest_backup:
+    path: /mnt/jest_backup
+    device: /dev/sdc1 #UUID=649d4c40-a787-44ed-ad0f-1ce4c658bff8
+  storage1:
+    path: /mnt/storage1
+    device: /dev/sdd1 #UUID=761732ac-0243-4ad8-a962-29014f542806
+  storage2:
+    path: /mnt/storage2
+    device: /dev/sde1 #UUID=73bd7074-f956-4c2d-87ea-5de7acf6b649
+  storage3:
+    path: /mnt/storage3
+    device: /dev/sdf1 #UUID=aa1e4307-afdd-4e17-b376-4526828961ad
+  storage4:
+    path: /mnt/storage4
+    device: /dev/sdg1 #UUID=d3bd7ee7-8fa8-42e9-940f-dbe8223977bc
+  storage:
+    path: /mnt/storage
+  storage_backup:
+    path: /mnt/storage_backup
+
+aws:
+  access_key_id: "{{ vault_aws_access_key_id }}"
+  secret_access_key: "{{ vault_aws_secret_access_key }}"
+  region: eu-central-1
+
+services:
+  directory: service
+  start_services: true
+  domain: jest-home.de
+  email: jest.home.server@gmail.com
+  network:
+    gateway: "192.168.11.1"
+    pihole: "192.168.11.2"
+    local_subnet: "192.168.0.0/16"
+  git:
+    repository: https://github.com/seternate/jest-homeserver.git
+    version: main
+  data:
+    aws_bucket: jest-migration-test
+    directory: service-data
+    check_directory_exists: false
+    delete_archives: false
+    force_download: false
+  secret:
+    aws_bucket: jest-services-secrets
+    directory: service-secrets
+    check_directory_exists: false
+    delete_archives: false
+    force_download: false
+  bitwarden:
+    directory: bitwarden
+    url: https://bitwarden.jest-home.de
+    docker_compose_override:
+      services:
+        nginx:
+          networks:
+          - traefik
+      networks:
+        traefik:
+          name: services_traefik
+          external: true
+    start_service: true
+  pyload:
+    download_directory: download
+    extract_directory: extract
+  emby:
+    tvshow_directory: public/TV Shows
+    movie_directory: public/Movies
+  filebrowser:
+    levin_directory: levin
+    katrin_directory: katrin
+    public_directory: public
+    share_directory: share

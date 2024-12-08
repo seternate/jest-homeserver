@@ -1,0 +1,3 @@
+- import_playbook: playbooks/setup-server.yaml
+
+- import_playbook: playbooks/setup-deploy-services.yaml

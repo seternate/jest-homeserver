@@ -1,0 +1,15 @@
+name: services
+
+include:
+- path: ./authentik/docker-compose.yaml
+- path: ./emby/docker-compose.yaml
+- path: ./filebrowser/docker-compose.yaml
+- path: ./firefly/docker-compose.yaml
+- path: ./grafana/docker-compose.yaml
+- path: ./homeassistant/docker-compose.yaml
+- path: ./homer/docker-compose.yaml
+- path: ./immich/docker-compose.yaml
+- path: ./portainer/docker-compose.yaml
+- path: ./prometheus/docker-compose.yaml
+- path: ./pyload/docker-compose.yaml
+- path: ./traefik/docker-compose.yaml

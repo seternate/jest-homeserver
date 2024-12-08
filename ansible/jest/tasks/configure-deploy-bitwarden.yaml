@@ -1,0 +1,56 @@
+- name: check Bitwarden is already installed
+  ansible.builtin.stat:
+    path: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ services.bitwarden.directory }}/bwdata"
+  register: bitwarden_data_dir
+
+- name: fail if Bitwarden directory is missing
+  ansible.builtin.fail:
+    msg: "The Bitwarden data folder is missing - please install/setup or change directory variable"
+  when: not bitwarden_data_dir.stat.exists
+
+- name: configure Bitwarden url in config.yaml
+  ansible.builtin.lineinfile:
+    path: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ services.bitwarden.directory }}/bwdata/config.yml"
+    regexp: "^url:"
+    line: "url: {{ services.bitwarden.url }}"
+  register: bitwarden_config
+
+- name: configure Bitwarden url in env/global.override.env
+  ansible.builtin.lineinfile:
+    path: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ services.bitwarden.directory }}/bwdata/env/global.override.env"
+    regexp: "^globalSettings__baseServiceUri__vault="
+    line: "globalSettings__baseServiceUri__vault={{ services.bitwarden.url }}"
+  register: bitwarden_global_env
+
+- name: configure docker-compose.override.yml
+  ansible.builtin.copy:
+    dest: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ services.bitwarden.directory }}/bwdata/docker/docker-compose.override.yml"
+    content: "{{ services.bitwarden.docker_compose_override | to_yaml(indent=2) }}"
+
+- name: rebuild Bitwarden to apply changes
+  become: yes
+  ansible.builtin.command: 
+    cmd: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ services.bitwarden.directory }}/bitwarden.sh rebuild"
+    chdir: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ services.bitwarden.directory }}"
+    stdin: "y"
+  register: bitwarden_rebuild
+  when: bitwarden_config.changed or bitwarden_global_env.changed
+
+- name: print bitwarden.sh rebuild output
+  ansible.builtin.debug:
+    var: bitwarden_rebuild.stdout
+  when: bitwarden_rebuild.changed
+
+- name: start Bitwarden service
+  become: yes
+  ansible.builtin.command: 
+    cmd: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ services.bitwarden.directory }}/bitwarden.sh start"
+    chdir: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ services.bitwarden.directory }}"
+    stdin: "y"
+  register: bitwarden_start
+  when: services.bitwarden.start_service
+
+- name: print bitwarden.sh start output
+  ansible.builtin.debug:
+    var: bitwarden_start.stdout
+  when: bitwarden_start.changed

@@ -1,0 +1,35 @@
+- name: configure disk mounts to fstab
+  become: true
+  ansible.posix.mount:
+    src: "{{ item.device }}"
+    path: "{{ item.path }}"
+    fstype: ext4
+    opts: auto
+    state: mounted
+    passno: "2"
+  loop:
+  - "{{ storage.jest }}"
+  - "{{ storage.jest_backup }}"
+  - "{{ storage.storage1 }}"
+  - "{{ storage.storage2 }}"
+  - "{{ storage.storage3 }}"
+  - "{{ storage.storage4 }}"
+
+- name: setup mergerfs for storage disks
+  become: true
+  ansible.builtin.import_role: 
+    name: tigattack.mergerfs
+  vars:
+    mergerfs_install_mode: package_manager
+    mergerfs_remove_undefined_mounts: false
+    mergerfs_mounts:
+    - path: "{{ storage.storage.path }}"
+      branches:
+      - "{{ storage.storage1.path }}"
+      - "{{ storage.storage3.path }}"
+      options: allow_other,use_ino,fsname=storage,moveonenospc=true,category.create=mfs
+    - path: "{{ storage.storage_backup.path }}"
+      branches:
+      - "{{ storage.storage2.path }}"
+      - "{{ storage.storage4.path }}"
+      options: allow_other,use_ino,fsname=storage_backup,moveonenospc=true,category.create=mfs

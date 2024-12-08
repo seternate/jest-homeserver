@@ -1,0 +1,69 @@
+services:
+  
+  traefik:
+    image: traefik:v3.2.1
+    container_name: traefik
+    labels:
+      traefik.enable: true
+      traefik.http.routers.traefik-dashboard.service: api@internal
+      traefik.http.routers.traefik-dashboard.rule: Host(`traefik.${DOMAIN}`)
+      traefik.http.routers.traefik-dashboard.middlewares: authentik@docker
+      prometheus.scrape: true
+      prometheus.port: 8080
+    environment:
+      DOMAIN: ${DOMAIN}
+      PIHOLE_IP: ${PIHOLE_IP}
+      UNIFI_GATEWAY_IP: ${UNIFI_GATEWAY_IP}
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck", "--ping"]
+      start_period: 60s
+      start_interval: 5s
+      interval: 60s
+      timeout: 5s
+      retries: 3
+    command:
+    - "--ping=true"
+    - "--ping.entrypoint=ping"
+    - "--api=true"
+    - "--providers.file.directory=/config"
+    - "--providers.docker=true"
+    - "--providers.docker.network=services_traefik"
+    - "--providers.docker.exposedbydefault=false"
+    - "--providers.docker.defaultrule=Host(`{{ .ContainerName }}.${DOMAIN}`)"
+    - "--entrypoints.ping.address=:8080"
+    - "--entrypoints.web.address=:80"
+    - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+    - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+    - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+    - "--entrypoints.websecure.address=:443"
+    - "--entrypoints.websecure.asdefault=true"
+    - "--entrypoints.websecure.http.tls=true"
+    - "--entrypoints.websecure.http.tls.certresolver=caresolver"
+    - "--certificatesresolvers.caresolver.acme.httpchallenge=true"
+    - "--certificatesresolvers.caresolver.acme.httpchallenge.entrypoint=web"
+    - "--certificatesresolvers.caresolver.acme.email=${EMAIL}"
+    - "--certificatesresolvers.caresolver.acme.storage=/letsencrypt/acme.json"
+    - "--metrics.prometheus=true"
+    - "--metrics.prometheus.entrypoint=ping"
+    - "--log=true"
+    - "--log.level=WARN"
+    - "--log.format=json"
+    - "--accesslog=true"
+    - "--accesslog.format=json"
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    - ./config:/config:ro
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/traefik}/letsencrypt:/letsencrypt
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/traefik}/log:/log
+    ports:
+    - 80:80
+    - 443:443
+    networks:
+    - traefik
+    - prometheus
+    restart: unless-stopped
+
+networks:
+  traefik:
+    name: services_traefik
+    external: true

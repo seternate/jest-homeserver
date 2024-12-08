@@ -1,0 +1,8 @@
+service_provider:
+  hosts:
+    jest:
+      # ansible_host: 192.168.11.247
+      # ansible_user: jest
+      ansible_location: local
+      ansible_connection: local
+      ansible_python_interpreter: "{{ansible_playbook_python}}"

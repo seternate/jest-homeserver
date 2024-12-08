@@ -1,0 +1,64 @@
+services:
+
+  # Image specifies healthchecks
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    container_name: cadvisor
+    labels:
+      traefik.enable: true
+      traefik.http.routers.cadvisor.middlewares: authentik@docker
+      prometheus.scrape: true
+    privileged: true
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:ro
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    - /dev/disk/:/dev/disk:ro
+    networks:
+    - traefik
+    - prometheus
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v3.0.0
+    container_name: prometheus
+    labels:
+      traefik.enable: true
+      traefik.http.routers.prometheus.middlewares: authentik@docker
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:9090/-/healthy || exit 1"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    user: 0:0
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    - ./config:/etc/prometheus:ro
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/prometheus}/data:/prometheus
+    extra_hosts:
+      host.docker.internal: host-gateway
+    networks:
+    - traefik
+    - prometheus
+    restart: unless-stopped
+
+  #No healthcheck possible
+  nodeexporter:
+    image: quay.io/prometheus/node-exporter:v1.8.2
+    container_name: nodeexporter
+    labels:
+      prometheus.scrape: true
+      prometheus.address: host.docker.internal
+      prometheus.port: 9100
+    command:
+    - --path.rootfs=/host
+    pid: host
+    volumes:
+    - /:/host:ro,rslave
+    network_mode: host
+    restart: unless-stopped
+
+networks:
+  prometheus:

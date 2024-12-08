@@ -1,0 +1,96 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 30s
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: docker-daemon
+    static_configs:
+      - targets: ["host.docker.internal:9323"]
+
+  - job_name: docker_prometheus_port_label
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+    relabel_configs:
+    # Only keep containers that have a `prometheus.scrape` label.
+    - source_labels: [__meta_docker_container_label_prometheus_scrape]
+      regex: .+
+      action: keep
+    # Only keep containers that have a `prometheus.port` label.
+    - source_labels: [__meta_docker_container_label_prometheus_port]
+      regex: .+
+      action: keep
+    # Use the container name as prometheus job label.
+    - source_labels: [__meta_docker_container_label_com_docker_compose_service]
+      target_label: job
+    # Set the address to the docker compose service name
+    - source_labels: [__address__, __meta_docker_container_label_com_docker_compose_service]
+      target_label: __address__
+      regex: '(.*):(\d+);(.+)'
+      replacement: "${3}:${2}"
+    # Set instance to localhost hostname
+    - source_labels: [__address__]
+      target_label: instance
+      regex: 'localhost'
+      replacement: "jest"
+    # Set address for localhost
+    - source_labels: [__address__]
+      target_label: __address__
+      regex: 'localhost'
+      replacement: "host.docker.internal:8080"
+    # Set the metrics path the `prometheus.path` label if it exists.
+    - source_labels: [__meta_docker_container_label_prometheus_path]
+      target_label: __metrics_path__
+      regex: (.+)
+    # Set the target port from the `prometheus.port` label if it exists.
+    - source_labels: [__address__, __meta_docker_container_label_prometheus_port]
+      target_label: __address__
+      regex: '(.*):(\d+);(\d+)'
+      replacement: "${1}:${3}"
+
+  - job_name: docker_prometheus_port2_label
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+    relabel_configs:
+    # Only keep containers that have a `prometheus.scrape` label.
+    - source_labels: [__meta_docker_container_label_prometheus_scrape]
+      regex: .+
+      action: keep
+    # Only keep containers that have a `prometheus.port` label.
+    - source_labels: [__meta_docker_container_label_prometheus_port]
+      regex: .+
+      action: keep
+    # Only keep containers that have a `prometheus.port2` label.
+    - source_labels: [__meta_docker_container_label_prometheus_port2]
+      regex: .+
+      action: keep
+    # Use the container name as prometheus job label.
+    - source_labels: [__meta_docker_container_label_com_docker_compose_service]
+      target_label: job
+    # Set the address to the docker compose service name
+    - source_labels: [__address__, __meta_docker_container_label_com_docker_compose_service]
+      target_label: __address__
+      regex: '(.*):(\d+);(.+)'
+      replacement: "${3}:${2}"
+    # Set instance to localhost hostname
+    - source_labels: [__address__]
+      target_label: instance
+      regex: 'localhost'
+      replacement: "jest"
+    # Set address for localhost
+    - source_labels: [__address__]
+      target_label: __address__
+      regex: 'localhost'
+      replacement: "host.docker.internal:8080"
+    # Set the metrics path the `prometheus.path` label if it exists.
+    - source_labels: [__meta_docker_container_label_prometheus_path]
+      target_label: __metrics_path__
+      regex: (.+)
+    # Set the target port from the `prometheus.port` label if it exists.
+    - source_labels: [__address__, __meta_docker_container_label_prometheus_port2]
+      target_label: __address__
+      regex: '(.*):(\d+);(\d+)'
+      replacement: "${1}:${3}"

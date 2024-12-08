@@ -1,0 +1,22 @@
+http:
+  routers:
+    unifi:
+      entryPoints:
+      - websecure
+      service: unifi-controller
+      rule: Host(`unifi.{{ env "DOMAIN" }}`)
+      tls:
+        certResolver: caresolver
+
+  services:
+    unifi-controller:
+      loadBalancer:
+        servers:
+        - url: https://{{ env "UNIFI_GATEWAY_IP" }}
+        passHostHeader: true
+        serversTransport: unifi
+  
+  # Needed because of self-signed certificate on UDM Pro
+  serversTransports:
+    unifi:
+      insecureSkipVerify: true

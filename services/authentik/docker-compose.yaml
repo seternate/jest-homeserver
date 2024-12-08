@@ -1,0 +1,149 @@
+services:
+
+  authentikdb:
+    image: postgres:16-alpine
+    container_name: authentikdb
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/authentik_db_password
+      POSTGRES_USER_FILE: /run/secrets/authentik_db_user
+      POSTGRES_DB_FILE: /run/secrets/authentik_db_name
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      start_period: 60s
+      start_interval: 5s
+      interval: 60s
+      timeout: 5s
+      retries: 3
+    volumes:
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/authentik}/database:/var/lib/postgresql/data
+    secrets:
+    - authentik_db_user
+    - authentik_db_password
+    - authentik_db_name
+    networks:
+    - authentik
+    restart: unless-stopped
+
+  authentikredis:
+    image: redis:7.4.1-alpine
+    container_name: authentikredis
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    command:
+    - --save
+    - "60"
+    - "1"
+    - --loglevel
+    - warning
+    volumes:
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/authentik}/redis:/data
+    networks:
+    - authentik
+    restart: unless-stopped
+
+  # Image specifies healthchecks
+  # NEVER set TZ: https://version-2022-11.goauthentik.io/docs/installation/docker-compose#explanation
+  authentikworker:
+    image: ghcr.io/goauthentik/server:2024.10.4
+    container_name: authentikworker
+    environment:
+      AUTHENTIK_REDIS__HOST: authentikredis
+      AUTHENTIK_POSTGRESQL__HOST: authentikdb
+      AUTHENTIK_POSTGRESQL__USER: file:///run/secrets/authentik_db_user
+      AUTHENTIK_POSTGRESQL__NAME: file:///run/secrets/authentik_db_name
+      AUTHENTIK_POSTGRESQL__PASSWORD: file:///run/secrets/authentik_db_password
+      AUTHENTIK_SECRET_KEY: file:///run/secrets/authentik_secret_key
+      AUTHENTIK_EMAIL__HOST: smtp.gmail.com
+      AUTHENTIK_EMAIL__PORT: 25
+      AUTHENTIK_EMAIL__USERNAME: ${EMAIL}
+      AUTHENTIK_EMAIL__PASSWORD: file:///run/secrets/authentik_email_password
+      AUTHENTIK_EMAIL__USE_TLS: true
+      AUTHENTIK_EMAIL__USE_SSL: false
+      AUTHENTIK_EMAIL__TIMEOUT: 10
+      AUTHENTIK_EMAIL__FROM: authentik@${DOMAIN}
+    command: worker
+    user: root
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/authentik}/media:/media
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/authentik}/certs:/certs
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/authentik}/custom-templates:/templates
+    secrets:
+    - authentik_db_user
+    - authentik_db_password
+    - authentik_db_name
+    - authentik_secret_key
+    - authentik_email_password
+    networks:
+    - authentik
+    depends_on:
+    - authentikdb
+    - authentikredis
+    restart: unless-stopped
+
+  # Image specifies healthchecks
+  # NEVER set TZ: https://version-2022-11.goauthentik.io/docs/installation/docker-compose#explanation
+  authentik:
+    image: ghcr.io/goauthentik/server:2024.10.4
+    container_name: authentik
+    labels:
+      traefik.enable: true
+      traefik.http.services.authentik.loadbalancer.server.port: 9000
+      traefik.http.middlewares.authentik.forwardauth.address: http://authentik:9000/outpost.goauthentik.io/auth/traefik
+      traefik.http.middlewares.authentik.forwardauth.trustForwardHeader: true
+      traefik.http.middlewares.authentik.forwardauth.authResponseHeaders: X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version
+      prometheus.scrape: true
+      prometheus.port: 9300
+    environment:
+      AUTHENTIK_REDIS__HOST: authentikredis
+      AUTHENTIK_POSTGRESQL__HOST: authentikdb
+      AUTHENTIK_POSTGRESQL__USER: file:///run/secrets/authentik_db_user
+      AUTHENTIK_POSTGRESQL__NAME: file:///run/secrets/authentik_db_name
+      AUTHENTIK_POSTGRESQL__PASSWORD: file:///run/secrets/authentik_db_password
+      AUTHENTIK_SECRET_KEY: file:///run/secrets/authentik_secret_key
+      AUTHENTIK_EMAIL__HOST: smtp.gmail.com
+      AUTHENTIK_EMAIL__PORT: 25
+      AUTHENTIK_EMAIL__USERNAME: ${EMAIL}
+      AUTHENTIK_EMAIL__PASSWORD: file:///run/secrets/authentik_email_password
+      AUTHENTIK_EMAIL__USE_TLS: true
+      AUTHENTIK_EMAIL__USE_SSL: false
+      AUTHENTIK_EMAIL__TIMEOUT: 10
+      AUTHENTIK_EMAIL__FROM: authentik@jest-home.de
+    command: server
+    volumes:
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/authentik}/media:/media
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/authentik}/custom-templates:/templates
+    secrets:
+    - authentik_db_user
+    - authentik_db_password
+    - authentik_db_name
+    - authentik_secret_key
+    - authentik_email_password
+    networks:
+    - traefik
+    - authentik
+    - prometheus
+    depends_on:
+    - authentikdb
+    - authentikredis
+    restart: unless-stopped
+
+secrets:
+
+  authentik_db_user:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/authentik}/db_user
+  authentik_db_password:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/authentik}/db_password
+  authentik_db_name:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/authentik}/db_name
+  authentik_secret_key:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/authentik}/secret_key
+  authentik_email_password:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/authentik}/email_password
+
+networks:
+  authentik:

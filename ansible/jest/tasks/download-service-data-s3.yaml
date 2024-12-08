@@ -1,0 +1,60 @@
+- name: check service-data directory is already present
+  ansible.builtin.stat:
+    path: "{{ storage.jest.path }}/{{ services.data.directory }}"
+  register: service_data_dir
+
+- name: fail if service-data directory already exists
+  ansible.builtin.fail:
+    msg: "The service-data directory already exists - please remove directory or set services.data.check_directory_exists to false"
+  when:
+  - services.data.check_directory_exists
+  - service_data_dir.stat.exists
+
+- name: create service-data directory
+  become: yes
+  ansible.builtin.file:
+    state: directory
+    owner: root
+    group: root
+    mode: "0750"
+    path: "{{ storage.jest.path }}/{{ services.data.directory }}"
+
+- name: get list of all objects for service-data from S3
+  amazon.aws.s3_object_info:
+    access_key: "{{ aws.access_key_id }}"
+    secret_key: "{{ aws.secret_access_key }}"
+    region: "{{ aws.region }}"
+    bucket_name: "{{ services.data.aws_bucket }}"
+  register: s3_object_items
+
+- name: get list of all files ignoring directories for service-data from S3
+  ansible.builtin.set_fact:
+    s3_file_items: "{{ s3_object_items.s3_keys | map('regex_search', '^.+[^\/]$') | reject('==', None) | list }}"
+
+- name: download archived files for service-data from S3
+  become: yes
+  amazon.aws.s3_object:
+    access_key: "{{ aws.access_key_id }}"
+    secret_key: "{{ aws.secret_access_key }}"
+    region: "{{ aws.region }}"
+    mode: get
+    bucket: "{{ services.data.aws_bucket }}"
+    object: "{{ item }}"
+    dest: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ item | basename }}"
+    overwrite: "{{ 'always' if services.data.force_download else 'latest' }}"
+  loop: "{{ s3_file_items }}"
+
+- name: extract service-data archives
+  become: yes
+  ansible.builtin.unarchive:
+    src: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ item | basename }}"
+    dest: "{{ storage.jest.path }}/{{ services.data.directory }}"
+  loop: "{{ s3_file_items }}"
+
+- name: delete service-data archives after extraction
+  become: yes
+  ansible.builtin.file:
+    path: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ item | basename }}"
+    state: absent
+  loop: "{{ s3_file_items }}"
+  when: services.data.delete_archives
