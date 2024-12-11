@@ -14,6 +14,9 @@ networks:
 - traefik
 ```
 
+<!-- ### DNS
+Service URL must be added to DNS service in order to be reached from the web -->
+
 ## Customization
 The following labels can be used for customization if neeeded:
 

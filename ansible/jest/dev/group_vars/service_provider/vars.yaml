@@ -39,8 +39,10 @@ storage:
     device: /dev/sdg1 #UUID=d3bd7ee7-8fa8-42e9-940f-dbe8223977bc
   storage:
     path: /mnt/storage
+    minfreespace: 50M
   storage_backup:
     path: /mnt/storage_backup
+    minfreespace: 50M
 
 aws:
   access_key_id: "{{ vault_aws_access_key_id }}"
@@ -79,13 +81,18 @@ services:
         nginx:
           networks:
           - traefik
+          labels:
+            traefik.enable: true
+            traefik.http.routers.bitwarden.rule: Host(`bitwarden.jest-home.de`)
+            traefik.http.routers.bitwarden.service: bitwarden
+            traefik.http.services.bitwarden.loadbalancer.server.port: 8080
       networks:
         traefik:
           name: services_traefik
           external: true
     start_service: true
   pyload:
-    download_directory: download
+    download_directory: downloads
     extract_directory: extract
   emby:
     tvshow_directory: public/TV Shows

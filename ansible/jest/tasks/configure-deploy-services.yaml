@@ -8,16 +8,16 @@
     src: ../templates/service.env.j2
     dest: "{{ storage.jest.path }}/{{ services.directory }}/services/.env"
 
-# - name: deploy services
-#   community.docker.docker_compose_v2:
-#     project_src: "{{ storage.jest.path }}/{{ services.directory }}/services"
-#     env_files: production.env
-#     remove_orphans: true
-#     state: present
-#   register: docker_compose_output
-#   when: services.start_services
+- name: deploy services
+  community.docker.docker_compose_v2:
+    project_src: "{{ storage.jest.path }}/{{ services.directory }}/services"
+    env_files: .env
+    remove_orphans: true
+    state: present
+  register: docker_compose_output
+  when: services.start_services
 
-# - name: show service startup output
-#   ansible.builtin.debug:
-#     var: docker_compose_output
-#   when: services.start_services
+- name: show service startup output
+  ansible.builtin.debug:
+    var: docker_compose_output
+  when: services.start_services

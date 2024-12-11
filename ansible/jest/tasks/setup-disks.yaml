@@ -27,9 +27,9 @@
       branches:
       - "{{ storage.storage1.path }}"
       - "{{ storage.storage3.path }}"
-      options: allow_other,use_ino,fsname=storage,moveonenospc=true,category.create=mfs
+      options: allow_other,use_ino,fsname=storage,moveonenospc=true,category.create=mfs{% if 'minfreespace' in storage.storage and storage.storage.minfreespace %},minfreespace={{ storage.storage.minfreespace }}{% endif %}
     - path: "{{ storage.storage_backup.path }}"
       branches:
       - "{{ storage.storage2.path }}"
       - "{{ storage.storage4.path }}"
-      options: allow_other,use_ino,fsname=storage_backup,moveonenospc=true,category.create=mfs
+      options: allow_other,use_ino,fsname=storage,moveonenospc=true,category.create=mfs{% if 'minfreespace' in storage.storage_backup and storage.storage_backup.minfreespace %},minfreespace={{ storage.storage_backup.minfreespace }}{% endif %}

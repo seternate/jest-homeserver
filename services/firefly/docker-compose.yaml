@@ -8,7 +8,7 @@ services:
       POSTGRES_USER_FILE: /run/secrets/firefly_db_user
       POSTGRES_PASSWORD_FILE: /run/secrets/firefly_db_password
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      test: ["CMD-SHELL", "pg_isready -d $(cat /run/secrets/firefly_db_name) -U $(cat /run/secrets/firefly_db_user)"]
       start_period: 60s
       start_interval: 5s
       interval: 60s

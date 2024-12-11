@@ -2,13 +2,8 @@
   hosts: jest
 
   tasks:
-    - name: clone service repository
-      become: yes
-      ansible.builtin.git:
-        single_branch: yes
-        repo: "{{ services.git.repository }}"
-        dest: "{{ storage.jest.path }}/{{ services.directory }}"
-        version: "{{ services.git.version }}"
+    - name: setup service repository
+      ansible.builtin.import_tasks: ../tasks/setup-service-repository.yaml
 
     - name: download service-data from S3
       ansible.builtin.import_tasks: ../tasks/download-service-data-s3.yaml

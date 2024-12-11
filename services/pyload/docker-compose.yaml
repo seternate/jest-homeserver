@@ -47,8 +47,8 @@ services:
       retries: 3
     volumes:
     - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/pyload}/config:/config
-    - ${PYLOAD_DOWNLOAD_FOLDER}/downloads:/downloads
-    - ${PYLOAD_EXTRACT_FOLDER}/extracted:/extracted
+    - ${PYLOAD_DOWNLOAD_FOLDER:-./downloads}:/downloads
+    - ${PYLOAD_EXTRACT_FOLDER:-./extract}:/extract
     network_mode: service:pyloadgluetun
     restart: unless-stopped
 
