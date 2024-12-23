@@ -29,7 +29,7 @@
     ssh_permit_tunnel: "no"
     ssh_remote_hosts: []
     ssh_permit_root_login: "no"
-    ssh_allow_tcp_forwarding: "no"
+    ssh_allow_tcp_forwarding: "yes"
     ssh_gateway_ports: false
     ssh_allow_agent_forwarding: false
     ssh_x11_forwarding: false
