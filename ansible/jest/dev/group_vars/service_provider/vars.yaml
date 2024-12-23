@@ -1,8 +1,8 @@
 users_update_password:
-  - username: root
-    password: "{{ vault_user_root_password }}"
   - username: jest
     password: "{{ vault_user_jest_password }}"
+  - username: root
+    password: "{{ vault_user_root_password }}"
 
 unattended_upgrades:
   origin_patterns:
@@ -12,11 +12,9 @@ unattended_upgrades:
   - 'origin=Debian,codename=${distro_codename}-security,label=Debian-Security'
   - 'origin=Docker,label=Docker CE,archive=${distro_codename}'
   automatic_reboot: true
-  automatic_reboot_time: 04:30
-  daily_oncalendar: "*-*-* 2:00:00 Europe/Berlin"
-  daily_randomizeddelaysec: "30m"
-  daily_upgrade_oncalendar: "*-*-* 3:00:00 Europe/Berlin"
-  daily_upgrade_randomizeddelaysec: "30m"
+  automatic_reboot_time: 01:30
+  daily_oncalendar: "*-*-* 22:00:00 Europe/Berlin"
+  daily_upgrade_oncalendar: "*-*-* 1:00:00 Europe/Berlin"
 
 storage:
   jest:
@@ -64,15 +62,13 @@ services:
   data:
     aws_bucket: jest-migration-test
     directory: service-data
-    check_directory_exists: false
-    delete_archives: false
-    force_download: false
+    fail_directory_exists: false
+    delete_archives: true
   secret:
     aws_bucket: jest-services-secrets
     directory: service-secrets
-    check_directory_exists: false
-    delete_archives: false
-    force_download: false
+    fail_directory_exists: false
+    delete_archives: true
   bitwarden:
     directory: bitwarden
     url: https://bitwarden.jest-home.de
