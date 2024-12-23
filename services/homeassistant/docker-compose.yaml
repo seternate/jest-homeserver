@@ -17,8 +17,6 @@ services:
       retries: 3
     volumes:
     - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/homeassistant}/config:/config
-    ports:
-    - 8123:8123
     networks:
     - traefik
     restart: unless-stopped
