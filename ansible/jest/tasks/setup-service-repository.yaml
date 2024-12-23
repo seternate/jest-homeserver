@@ -22,4 +22,5 @@
     dest: "{{ storage.jest.path }}/{{ services.directory }}"
     version: "{{ services.git.version }}"
     clone: no
+    force: true
   when: not service_repo_status.changed

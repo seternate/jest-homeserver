@@ -4,11 +4,13 @@
     split: ':'
 
 - name: configure .env for services
+  become: yes
   ansible.builtin.template:
     src: ../templates/service.env.j2
     dest: "{{ storage.jest.path }}/{{ services.directory }}/services/.env"
 
 - name: deploy services
+  become: yes
   community.docker.docker_compose_v2:
     project_src: "{{ storage.jest.path }}/{{ services.directory }}/services"
     env_files: .env

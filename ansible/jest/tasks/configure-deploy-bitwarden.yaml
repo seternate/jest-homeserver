@@ -1,4 +1,5 @@
 - name: check Bitwarden is already installed
+  become: yes
   ansible.builtin.stat:
     path: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ services.bitwarden.directory }}/bwdata"
   register: bitwarden_data_dir
@@ -9,6 +10,7 @@
   when: not bitwarden_data_dir.stat.exists
 
 - name: configure Bitwarden url in config.yaml
+  become: yes
   ansible.builtin.lineinfile:
     path: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ services.bitwarden.directory }}/bwdata/config.yml"
     regexp: "^url:"
@@ -16,6 +18,7 @@
   register: bitwarden_config
 
 - name: configure Bitwarden url in env/global.override.env
+  become: yes
   ansible.builtin.lineinfile:
     path: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ services.bitwarden.directory }}/bwdata/env/global.override.env"
     regexp: "^globalSettings__baseServiceUri__vault="
@@ -23,6 +26,7 @@
   register: bitwarden_global_env
 
 - name: configure docker-compose.override.yml
+  become: yes
   ansible.builtin.copy:
     dest: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ services.bitwarden.directory }}/bwdata/docker/docker-compose.override.yml"
     content: "{{ services.bitwarden.docker_compose_override | to_yaml(indent=2) }}"

@@ -5,6 +5,13 @@
     - name: setup service repository
       ansible.builtin.import_tasks: ../tasks/setup-service-repository.yaml
 
+    - name: setup aws python SDK
+      become: yes
+      ansible.builtin.apt:
+        name:
+        - python3-botocore
+        - python3-boto3
+
     - name: download service-data from S3
       ansible.builtin.import_tasks: ../tasks/download-service-data-s3.yaml
 
@@ -12,6 +19,7 @@
       ansible.builtin.import_tasks: ../tasks/download-service-secrets-s3.yaml
 
     - name: create external docker network for traefik
+      become: yes
       community.docker.docker_network:
         name: services_traefik
 

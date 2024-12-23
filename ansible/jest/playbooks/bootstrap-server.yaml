@@ -2,9 +2,6 @@
   hosts: jest
 
   tasks:
-    - name: change-system-passwords
-      ansible.builtin.import_tasks: ../../tasks/change-passwords.yaml
-
     - name: configuration ssh/sshd
       ansible.builtin.import_tasks: ../../tasks/configure-sshd.yaml
 
@@ -16,3 +13,6 @@
 
     - name: setup docker
       ansible.builtin.import_tasks: ../tasks/setup-docker.yaml
+
+    - name: change-system-passwords
+      ansible.builtin.import_tasks: ../../tasks/change-passwords.yaml
