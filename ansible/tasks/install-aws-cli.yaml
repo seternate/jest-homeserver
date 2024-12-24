@@ -1,0 +1,31 @@
+- name: install aws-cli installation dependencies
+  become: yes
+  ansible.builtin.apt:
+    name:
+    - unzip
+
+- name: download aws-cli bundle
+  ansible.builtin.get_url:
+    url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+    dest: /tmp/awscli-bundle.zip
+  register: aws_cli_download
+
+- name: extract aws-cli bundle
+  ansible.builtin.unarchive:
+    src: "{{ aws_cli_download.dest }}"
+    dest: /tmp
+    creates: /tmp/aws
+    remote_src: yes
+
+- name: install aws-cli
+  become: yes
+  ansible.builtin.command:
+    cmd: /tmp/aws/install
+    creates: /usr/local/aws-cli
+
+- name: install aws python SDK
+  become: yes
+  ansible.builtin.apt:
+    name:
+    - python3-botocore
+    - python3-boto3
