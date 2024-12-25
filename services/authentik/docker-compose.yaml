@@ -92,6 +92,7 @@ services:
     environment:
       AUTHENTIK_HOST: http://authentik
       AUTHENTIK_INSECURE: "true"
+      AUTHENTIK_TOKEN: ""
     networks:
     - authentik
     - traefik
