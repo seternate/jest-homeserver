@@ -8,6 +8,7 @@ services:
       traefik.enable: true
       traefik.http.routers.cadvisor.middlewares: authentik@docker
       prometheus.scrape: true
+      prometheus.port: 8080
     privileged: true
     volumes:
     - /:/rootfs:ro
