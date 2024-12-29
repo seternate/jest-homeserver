@@ -25,6 +25,7 @@
 !ansible/tasks/
 !services/
 !services/authentik/
+!services/ddns-updater/
 !services/emby/
 !services/filebrowser/
 !services/filebrowser/config/
