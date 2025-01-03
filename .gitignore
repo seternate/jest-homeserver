@@ -39,6 +39,8 @@
 !services/prometheus/
 !services/prometheus/config/
 !services/pyload/
+!services/restic/
+!services/restic/config/
 !services/traefik/
 !services/traefik/config/
 

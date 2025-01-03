@@ -1,0 +1,10 @@
+version: "1"
+
+levin:
+  repository: "local:/levin"
+  password-file: "/run/secrets/levin_password"
+
+  backup:
+    verbose: true
+    source:
+      - "/home"

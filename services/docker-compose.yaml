@@ -13,4 +13,5 @@ include:
 - path: ./portainer/docker-compose.yaml
 - path: ./prometheus/docker-compose.yaml
 - path: ./pyload/docker-compose.yaml
+- path: ./restic/docker-compose.yaml
 - path: ./traefik/docker-compose.yaml
