@@ -18,6 +18,16 @@ services:
     #   retries: 3
     volumes:
     - ./config:/resticprofile:ro
+    - ${LEVIN_DIRECTORY:-./levin}:/levin:ro
+    - ${LEVIN_BACKUP_DIRECTORY:-./levin_backup}:/levin_backup
+    - ${KATRIN_DIRECTORY:-./katrin}:/katrin:ro
+    - ${KATRIN_BACKUP_DIRECTORY:-./katrin_backup}:/katrin_backup
+    - ${SHARE_DIRECTORY:-./share}:/share:ro
+    - ${SHARE_BACKUP_DIRECTORY:-./share_backup}:/share_backup
+    - ${DATA_FOLDER_PATH:-./service-data}:/service-data:ro
+    - ${DATA_FOLDER_BACKUP_PATH:-./service-data-backup}:/service-data-backup
+    - ${PUBLIC_DIRECTORY:-./public}:/public:ro
+    - ${PUBLIC_BACKUP_DIRECTORY:-./public_backup}:/public_backup
     secrets:
     - levin_password
     networks:

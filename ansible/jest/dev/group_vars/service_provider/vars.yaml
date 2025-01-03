@@ -62,6 +62,7 @@ services:
   data:
     aws_bucket: jest-migration-test
     directory: /mnt/jest/service-data
+    directory_backup: /mnt/jest_backup/service-data
     fail_directory_exists: false
     delete_archives: true
   secret:
@@ -91,8 +92,12 @@ services:
     download: /mnt/storage/downloads
     extract: /mnt/storage/extract
     public: /mnt/storage/public
+    public_backup: /mnt/storage_backup/public
     tvshow: /mnt/storage/public/TV Shows
     movie: /mnt/storage/public/Movies
     levin: /mnt/jest/levin
+    levin_backup: /mnt/jest_backup/levin
     katrin: /mnt/jest/katrin
+    katrin_backup: /mnt/jest_backup/katrin
     share: /mnt/jest/share
+    share_backup: /mnt/jest_backup/share
