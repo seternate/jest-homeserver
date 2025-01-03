@@ -7,11 +7,6 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.filebrowser.middlewares: authentik@docker
-    entrypoint: ""
-    # Auth settings can only be set via cli: https://github.com/filebrowser/filebrowser/issues/2745#issuecomment-2046607848
-    # /filebrowser config set --auth.method=proxy --auth.header=X-authentik-username
-    command: >
-      /bin/sh -c "/filebrowser"
     volumes:
     - ./config/.filebrowser.json:/.filebrowser.json
     - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/filebrowser}/database:/database
