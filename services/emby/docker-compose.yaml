@@ -9,7 +9,7 @@ services:
     environment:
       UID: 1000
       GID: 1000
-      GIDLIST: ${EMBY_UID_VIDEO},${EMBY_UID_RENDER}
+      GIDLIST: ${UID_VIDEO},${UID_RENDER}
     healthcheck:
       test: ["CMD-SHELL", "wget --spider -q http://localhost:8096/emby/system/info/public || exit 1"]
       start_period: 60s
@@ -19,8 +19,8 @@ services:
       retries: 3
     volumes:
     - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/emby}/config:/config
-    - ${EMBY_TV_SHOW_DIRECTORY:-./tvshow}:/mnt/tvshow:ro
-    - ${EMBY_MOVIE_DIRECTORY:-./movie}:/mnt/movie:ro
+    - ${TV_SHOW_DIRECTORY:-./tvshow}:/mnt/tvshow:ro
+    - ${MOVIE_DIRECTORY:-./movie}:/mnt/movie:ro
     devices:
     - /dev/dri:/dev/dri # VAAPI/NVDEC/NVENC render nodes
     networks:

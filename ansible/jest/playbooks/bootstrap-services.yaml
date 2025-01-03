@@ -1,4 +1,4 @@
-- name: bootstrap & deploy services
+- name: bootstrap services
   hosts: jest
 
   tasks:
@@ -15,9 +15,3 @@
       become: yes
       community.docker.docker_network:
         name: services_traefik
-
-    - name: configure & deploy services
-      ansible.builtin.import_tasks: ../tasks/configure-deploy-services.yaml
-
-    - name: configure & deploy Bitwarden
-      ansible.builtin.import_tasks: ../tasks/configure-deploy-bitwarden.yaml

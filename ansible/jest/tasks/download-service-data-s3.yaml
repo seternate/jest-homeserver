@@ -1,6 +1,6 @@
 - name: check service-data directory is already present
   ansible.builtin.stat:
-    path: "{{ storage.jest.path }}/{{ services.data.directory }}"
+    path: "{{ services.data.directory }}"
   register: service_data_dir
 
 - name: fail if service-data directory already exists
@@ -17,7 +17,7 @@
     owner: root
     group: root
     mode: "0750"
-    path: "{{ storage.jest.path }}/{{ services.data.directory }}"
+    path: "{{ services.data.directory }}"
   when: not service_data_dir.stat.exists
 
 - name: get list of all objects for service-data from S3
@@ -41,7 +41,7 @@
     mode: get
     bucket: "{{ services.data.aws_bucket }}"
     object: "{{ item }}"
-    dest: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ item | basename }}"
+    dest: "{{ services.data.directory }}/{{ item | basename }}"
     overwrite: latest
   loop: "{{ s3_file_items }}"
   when: not service_data_dir.stat.exists
@@ -49,8 +49,8 @@
 - name: extract service-data archives
   become: yes
   ansible.builtin.unarchive:
-    src: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ item | basename }}"
-    dest: "{{ storage.jest.path }}/{{ services.data.directory }}"
+    src: "{{ services.data.directory }}/{{ item | basename }}"
+    dest: "{{ services.data.directory }}"
     remote_src: true
   loop: "{{ s3_file_items }}"
   when: not service_data_dir.stat.exists
@@ -58,7 +58,7 @@
 - name: delete service-data archives after extraction
   become: yes
   ansible.builtin.file:
-    path: "{{ storage.jest.path }}/{{ services.data.directory }}/{{ item | basename }}"
+    path: "{{ services.data.directory }}/{{ item | basename }}"
     state: absent
   loop: "{{ s3_file_items }}"
   when: 

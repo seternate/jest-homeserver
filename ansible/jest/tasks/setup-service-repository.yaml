@@ -1,8 +1,8 @@
 - name: check service repository is already cloned
   become: yes
   ansible.builtin.git:
-    repo: "{{ services.git.repository }}"
-    dest: "{{ storage.jest.path }}/{{ services.directory }}"
+    repo: "{{ services.repository.url }}"
+    dest: "{{ services.repository.directory }}"
     clone: no
     update: no
   register: service_repo_status
@@ -10,17 +10,17 @@
 - name: clone service repository if not cloned
   become: yes
   ansible.builtin.git:
-    repo: "{{ services.git.repository }}"
-    dest: "{{ storage.jest.path }}/{{ services.directory }}"
-    version: "{{ services.git.version }}"
+    repo: "{{ services.repository.url }}"
+    dest: "{{ services.repository.directory }}"
+    version: "{{ services.repository.version }}"
   when: service_repo_status.changed
 
 - name: update service repository if already cloned
   become: yes
   ansible.builtin.git:
-    repo: "{{ services.git.repository }}"
-    dest: "{{ storage.jest.path }}/{{ services.directory }}"
-    version: "{{ services.git.version }}"
+    repo: "{{ services.repository.url }}"
+    dest: "{{ services.repository.directory }}"
+    version: "{{ services.repository.version }}"
     clone: no
     force: true
   when: not service_repo_status.changed

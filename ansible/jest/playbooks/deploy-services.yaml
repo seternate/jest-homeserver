@@ -1,0 +1,9 @@
+- name: deploy services
+  hosts: jest
+
+  tasks:
+    - name: configure & deploy services
+      ansible.builtin.import_tasks: ../tasks/configure-deploy-services.yaml
+
+    - name: configure & deploy Bitwarden
+      ansible.builtin.import_tasks: ../tasks/configure-deploy-bitwarden.yaml

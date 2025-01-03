@@ -48,7 +48,6 @@ aws:
   region: eu-central-1
 
 services:
-  directory: service
   start_services: true
   domain: jest-home.de
   email: jest.home.server@gmail.com
@@ -56,21 +55,23 @@ services:
     gateway: "192.168.11.1"
     pihole: "192.168.11.2"
     local_subnet: "192.168.0.0/16"
-  git:
-    repository: https://github.com/seternate/jest-homeserver.git
+  repository:
+    directory: /mnt/jest/service
+    url: https://github.com/seternate/jest-homeserver.git
     version: main
   data:
     aws_bucket: jest-migration-test
-    directory: service-data
+    directory: /mnt/jest/service-data
     fail_directory_exists: false
     delete_archives: true
   secret:
     aws_bucket: jest-services-secrets
-    directory: service-secrets
+    directory: /mnt/jest/service-secrets
     fail_directory_exists: false
     delete_archives: true
   bitwarden:
-    directory: bitwarden
+    start_service: true
+    directory: /mnt/jest/service-data/bitwarden
     url: https://bitwarden.jest-home.de
     docker_compose_override:
       services:
@@ -86,15 +87,12 @@ services:
         traefik:
           name: services_traefik
           external: true
-    start_service: true
-  pyload:
-    download_directory: downloads
-    extract_directory: extract
-  emby:
-    tvshow_directory: public/TV Shows
-    movie_directory: public/Movies
-  filebrowser:
-    levin_directory: levin
-    katrin_directory: katrin
-    public_directory: public
-    share_directory: share
+  directories:
+    download: /mnt/storage/downloads
+    extract: /mnt/storage/extract
+    public: /mnt/storage/public
+    tvshow: /mnt/storage/public/TV Shows
+    movie: /mnt/storage/public/Movies
+    levin: /mnt/jest/levin
+    katrin: /mnt/jest/katrin
+    share: /mnt/jest/share

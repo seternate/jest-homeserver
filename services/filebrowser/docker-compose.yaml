@@ -15,12 +15,12 @@ services:
     volumes:
     - ./config/.filebrowser.json:/.filebrowser.json
     - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/filebrowser}/database:/database
-    - ${FILEBROWSER_DIRECTORY_LEVIN:-./levin}:/srv/levin
-    - ${FILEBROWSER_DIRECTORY_KATRIN:-./katrin}:/srv/katrin
-    - ${FILEBROWSER_DIRECTORY_PUBLIC:-./public}:/srv/public
-    - ${FILEBROWSER_DIRECTORY_SHARE:-./share}:/srv/share
-    - ${FILEBROWSER_DIRECTORY_DOWNLOAD:-./downloads}:/srv/downloads
-    - ${FILEBROWSER_DIRECTORY_EXTRACT:-./extract}:/srv/extract
+    - ${LEVIN_DIRECTORY:-./levin}:/srv/levin
+    - ${KATRIN_DIRECTORY:-./katrin}:/srv/katrin
+    - ${PUBLIC_DIRECTORY:-./public}:/srv/public
+    - ${SHARE_DIRECTORY:-./share}:/srv/share
+    - ${DOWNLOAD_DIRECTORY:-./downloads}:/srv/downloads
+    - ${EXTRACT_DIRECTORY:-./extract}:/srv/extract
     networks:
     - traefik
     restart: unless-stopped
