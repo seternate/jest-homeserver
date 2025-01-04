@@ -16,7 +16,7 @@
     state: directory
     owner: root
     group: root
-    mode: "0750"
+    mode: "0755"
     path: "{{ services.data.directory }}"
   when: not service_data_dir.stat.exists
 
