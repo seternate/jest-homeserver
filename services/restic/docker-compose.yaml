@@ -17,6 +17,8 @@ services:
     #   timeout: 5s
     #   retries: 3
     volumes:
+    # Add volume for prometheus?
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/restic}/log:/log
     - ./config:/resticprofile:ro
     - ${LEVIN_DIRECTORY:-./levin}:/levin:ro
     - ${LEVIN_BACKUP_DIRECTORY:-./levin_backup}:/levin_backup
@@ -25,11 +27,15 @@ services:
     - ${SHARE_DIRECTORY:-./share}:/share:ro
     - ${SHARE_BACKUP_DIRECTORY:-./share_backup}:/share_backup
     - ${DATA_FOLDER_PATH:-./service-data}:/service-data:ro
-    - ${DATA_FOLDER_BACKUP_PATH:-./service-data-backup}:/service-data-backup
+    - ${DATA_FOLDER_BACKUP_PATH:-./service-data-backup}:/service-data_backup
     - ${PUBLIC_DIRECTORY:-./public}:/public:ro
     - ${PUBLIC_BACKUP_DIRECTORY:-./public_backup}:/public_backup
     secrets:
     - levin_password
+    - katrin_password
+    - share_password
+    - service-data_password
+    - public_password
     networks:
     - restic
     restart: unless-stopped
@@ -38,6 +44,14 @@ secrets:
 
   levin_password:
     file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/restic}/levin_password
+  katrin_password:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/restic}/katrin_password
+  share_password:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/restic}/share_password
+  service-data_password:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/restic}/service-data_password
+  public_password:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/restic}/public_password
 
 networks:
   restic:
