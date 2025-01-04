@@ -55,7 +55,7 @@ services:
       prometheus.port: 9100
     command:
     - --path.rootfs=/host
-    - --collector.textfile.directory=${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/prometheus}/nodexporter
+    - --collector.textfile.directory=/host${DATA_FOLDER_PATH:+/prometheus}/nodeexporter
     pid: host
     volumes:
     - /:/host:ro,rslave

@@ -18,7 +18,7 @@ services:
     #   retries: 3
     volumes:
     - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/restic}/log:/log
-    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/prometheus}/nodexporter:/prometheus
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/prometheus}/nodeexporter:/prometheus
     - ./config:/resticprofile:ro
     - ${LEVIN_DIRECTORY:-./levin}:/levin:ro
     - ${LEVIN_BACKUP_DIRECTORY:-./levin_backup}:/levin_backup
