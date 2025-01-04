@@ -17,8 +17,8 @@ services:
     #   timeout: 5s
     #   retries: 3
     volumes:
-    # Add volume for prometheus?
     - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/restic}/log:/log
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/prometheus}/nodexporter:/prometheus
     - ./config:/resticprofile:ro
     - ${LEVIN_DIRECTORY:-./levin}:/levin:ro
     - ${LEVIN_BACKUP_DIRECTORY:-./levin_backup}:/levin_backup

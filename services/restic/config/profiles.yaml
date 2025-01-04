@@ -1,10 +1,56 @@
 version: "1"
 
-levin:
-  repository: "local:/levin"
-  password-file: "/run/secrets/levin_password"
+global:
+  group-continue-on-error: true
+  initialize: true
+  log: /log/resticprofile.log
+  scheduler: crond
+
+groups:
+  full:
+  - service-data
+  - levin
+  - katrin
+  - share
+  - public
+
+template:
+  repository: "local:/{{ .Profile.Name }}_backup"
+  password-file: "/run/secrets/{{ .Profile.Name }}_password"
+  lock: /tmp/resticprofile-{{ .Profile.Name }}.lock
+  prometheus-save-to-file: /prometheus/{{ .Profile.Name}}.prom
 
   backup:
-    verbose: true
+    schedule: "02:00"
+    schedule-permission: system
+    schedule-log-wait: 30m
+    schedule-log: /log/{{ .Profile.Name }}_backup
+    check-before: true
+    check-after: true
     source:
-      - "/home"
+      - "/{{ .Profile.Name }}"
+
+  check:
+    read-data: true
+    schedule: "Sun *-*-* 00:05:00"
+    schedule-permission: system
+    schedule-log-wait: 30m
+    schedule-log: /log/{{ .Profile.Name }}_check_full
+
+levin:
+  inherit: template
+
+katrin:
+  inherit: template
+
+share:
+  inherit: template
+
+public:
+  inherit: template
+
+service-data:
+  inherit: template
+  #backup:
+    #run-before:
+    #run-finally:
