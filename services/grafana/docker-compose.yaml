@@ -5,6 +5,7 @@ services:
     container_name: grafana
     labels:
       traefik.enable: true
+      backup.enable: true
     environment:
       GF_SERVER_ROOT_URL: "https://grafana.${DOMAIN}"
     healthcheck:

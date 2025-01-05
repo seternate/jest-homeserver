@@ -3,6 +3,8 @@ services:
   fireflydb:
     image: postgres:10
     container_name: fireflydb
+    labels:
+      backup.enable: true
     environment:
       POSTGRES_DB_FILE: /run/secrets/firefly_db_name
       POSTGRES_USER_FILE: /run/secrets/firefly_db_user
@@ -29,6 +31,7 @@ services:
     container_name: firefly
     labels:
       traefik.enable: true
+      backup.enable: true
     environment:
       APP_ENV: production
       APP_DEBUG: false

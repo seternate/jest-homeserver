@@ -34,6 +34,8 @@ services:
   pyload:
     image: linuxserver/pyload-ng:version-0.5.0b3.dev87
     container_name: pyload
+    labels:
+      backup.enable: true
     environment:
       TZ: Europe/London
       PUID: 1000

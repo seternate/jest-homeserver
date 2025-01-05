@@ -6,6 +6,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.services.homeassistant.loadbalancer.server.port: 8123
+      backup.enable: true
     environment:
       TZ: Europe/Berlin
     healthcheck:

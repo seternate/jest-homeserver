@@ -3,6 +3,8 @@ services:
   immichdb:
     image: tensorchord/pgvecto-rs:pg16-v0.3.0
     container_name: immichdb
+    labels:
+      backup.enable: true
     environment:
       POSTGRES_PASSWORD_FILE: /run/secrets/immich_db_password
       POSTGRES_USER_FILE: /run/secrets/immich_db_user
@@ -40,6 +42,8 @@ services:
   immichredis:
     image: redis:7.4.1-alpine
     container_name: immichredis
+    labels:
+      backup.enable: true
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
       start_period: 20s
@@ -58,6 +62,8 @@ services:
   immichmachinelearning:
     image: ghcr.io/immich-app/immich-machine-learning:v1.121.0
     container_name: immichmachinelearning
+    labels:
+      backup.enable: true
     environment:
       IMMICH_LOG_LEVEL: warn
       NO_COLOR: true
@@ -68,13 +74,14 @@ services:
     restart: unless-stopped
 
   immich:
-    container_name: immich
     image: ghcr.io/immich-app/immich-server:v1.121.0
+    container_name: immich
     labels:
       traefik.enable: true
       prometheus.scrape: true
       prometheus.port: 8081
       prometheus.port2: 8082
+      backup.enable: true
     environment:
       TZ: Europe/Berlin
       IMMICH_LOG_LEVEL: warn

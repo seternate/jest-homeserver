@@ -7,6 +7,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.ddnsupdater.middlewares: authentik@docker
+      backup.enable: true
     environment:
       CONFIG_FILEPATH: /run/secrets/ddnsupdater_config
       TZ: Europe/Berlin

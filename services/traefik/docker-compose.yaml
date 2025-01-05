@@ -10,6 +10,7 @@ services:
       traefik.http.routers.traefik-dashboard.middlewares: authentik@docker
       prometheus.scrape: true
       prometheus.port: 8080
+      backup.enable: true
     environment:
       DOMAIN: ${DOMAIN}
       PIHOLE_IP: ${PIHOLE_IP}

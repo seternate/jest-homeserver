@@ -6,6 +6,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.services.emby.loadbalancer.server.port: 8096
+      backup.enable: true
     environment:
       UID: 1000
       GID: 1000
