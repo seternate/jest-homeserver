@@ -7,3 +7,11 @@ In order to backup data from docker containers, the containers need to be stoppe
 labels:
   backup.enable: true
 ```
+
+## Filter docker containers
+To filter docker containers for specific labels or images used use the following commands:
+
+```
+docker ps -aq --filter "label=backup.enable=true"
+docker ps -aq --filter "name=bitwarden"
+```
