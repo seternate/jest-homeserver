@@ -38,7 +38,7 @@ template:
     keep-weekly: 12
     keep-monthly: 6
     keep-yearly: 2
-    prune: yes
+    prune: true
 
   check:
     read-data: true
