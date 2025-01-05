@@ -25,17 +25,23 @@ template:
     schedule-permission: system
     schedule-log-wait: 30m
     schedule-log: /log/{{ .Profile.Name }}_backup
-    check-before: true
     check-after: true
     source:
       - "/{{ .Profile.Name }}"
+    host: jest
+    group-by: paths
+
+  retention:
+    after-backup: true
+    group-by: paths
+    keep-daily: 14
+    keep-weekly: 12
+    keep-monthly: 6
+    keep-yearly: 2
+    prune: yes
 
   check:
     read-data: true
-    schedule: "Sun *-*-* 00:05:00"
-    schedule-permission: system
-    schedule-log-wait: 30m
-    schedule-log: /log/{{ .Profile.Name }}_check_full
 
 levin:
   inherit: template
