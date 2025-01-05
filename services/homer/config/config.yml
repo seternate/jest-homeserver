@@ -46,7 +46,7 @@ services:
   icon: "fas fa-cloud"
   items:
   - name: "Authentik"
-    logo: "assets/tools/authentik.png"
+    icon: "assets/tools/authentik.png"
     subtitle: "Open-Source IdP (Identity Provider) and SSO (single sign on)"
     #tag: "setup"
     url: "https://authentik.jest-home.de"
