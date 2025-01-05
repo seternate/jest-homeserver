@@ -1,7 +1,7 @@
 ---
 title: "Dashboard"
 subtitle: "Lanty"
-logo: "logo.png"
+logo: "assets/icon-any.png"
 
 header: false
 footer: '<p>Theme made with <span class="has-text-danger">❤️</span> by <a href="https://github.com/WalkxCode">Walkx</a></p>'
@@ -25,7 +25,7 @@ colors:
     card-shadow: rgba(0, 0, 0, 0.5)
     link: "#3273dc"
     link-hover: "#2e4053"
-    background-image: "assets/wallpaper.jpg"
+    background-image: "/assets/wallpaper.jpg"
   dark:
     highlight-primary: "#181C3A"
     highlight-secondary: "#181C3A"
@@ -39,7 +39,7 @@ colors:
     card-shadow: rgba(0, 0, 0, 0.5)
     link: "#c1c1c1"
     link-hover: "#fafafa"
-    background-image: "assets/wallpaper.jpg"
+    background-image: "/assets/wallpaper.jpg"
 
 services:
 - name: "Services"
