@@ -1,13 +1,12 @@
 ---
-title: "Dashboard"
-subtitle: "Lanty"
-logo: "assets/icon-any.png"
+title: Dashboard
+subtitle: Jest
 
 header: false
-footer: '<p>Theme made with <span class="has-text-danger">❤️</span> by <a href="https://github.com/WalkxCode">Walkx</a></p>'
+footer: <p>Theme made with <span class="has-text-danger">❤️</span> by <a href="https://github.com/WalkxCode">Walkx</a></p>
 
 stylesheet:
-- "assets/custom.css"
+- assets/custom.css
 
 columns: "3"
 theme: default
@@ -17,7 +16,7 @@ colors:
     highlight-secondary: "#fff5f2"
     highlight-hover: "#bebebe"
     background: "#12152B"
-    card-background: "rgba(255, 245, 242, 0.8)"
+    card-background: rgba(255, 245, 242, 0.8)
     text: "#ffffff"
     text-header: "#fafafa"
     text-title: "#000000"
@@ -25,13 +24,13 @@ colors:
     card-shadow: rgba(0, 0, 0, 0.5)
     link: "#3273dc"
     link-hover: "#2e4053"
-    background-image: "../assets/wallpaper.jpg"
+    background-image: ../assets/wallpaper.png
   dark:
     highlight-primary: "#181C3A"
     highlight-secondary: "#181C3A"
     highlight-hover: "#1F2347"
     background: "#12152B"
-    card-background: "rgba(24, 28, 58, 0.8)"
+    card-background: rgba(24, 28, 58, 0.8)
     text: "#eaeaea"
     text-header: "#7C71DD"
     text-title: "#fafafa"
@@ -39,84 +38,125 @@ colors:
     card-shadow: rgba(0, 0, 0, 0.5)
     link: "#c1c1c1"
     link-hover: "#fafafa"
-    background-image: "../assets/wallpaper.jpg"
+    background-image: ../assets/wallpaper.png
+
+links:
+- name: AWS
+  icon: fab fa-aws
+  url: https://eu-north-1.signin.aws.amazon.com/oauth?client_id=arn%3Aaws%3Asignin%3A%3A%3Aconsole%2Fcanvas&code_challenge=rKWcYIS3xSi5XijfN6-xml5I2bN-30H9LbPEh7VPLlQ&code_challenge_method=SHA-256&response_type=code&redirect_uri=https%3A%2F%2Fconsole.aws.amazon.com%2Fconsole%2Fhome%3FhashArgs%3D%2523%26isauthcode%3Dtrue%26nc2%3Dh_ct%26src%3Dheader-signin%26state%3DhashArgsFromTB_eu-north-1_585ee4bc81ae8dc8
+  target: _blank
+- name: DDL-Warez
+  icon: fas fa-circle-down
+  url: https://github.com/seternate
+  target: _blank
+- name: Github
+  icon: fab fa-github
+  url: https://github.com/seternate
+  target: _blank
+- name: Netflix
+  icon: fas fa-n
+  url: https://netflix.com
+  target: _blank
+- name: Serienjunkies
+  icon: fas fa-tv
+  url: https://serienjunkies.org
+  target: _blank
+- name: Youtube
+  icon: fab fa-youtube
+  url: https://youtube.com
+  target: _blank
 
 services:
-- name: "//Services"
-  icon: "fas fa-cloud"
+- name: Auth
+  icon: fas fa-shield-halved
   items:
-  - name: "Authentik"
-    icon: "assets/tools/authentik.png"
-    subtitle: "Open-Source IdP (Identity Provider) and SSO (single sign on)"
-    #tag: "setup"
-    url: "https://authentik.jest-home.de"
-  - name: "Bitwarden"
-    logo: "assets/tools/bitwarden.png"
-    subtitle: "Password manager for passwords and passkeys"
-    #tag: "setup"
-    url: "https://bitwarden.jest-home.de"
-  - name: "cAdvisor"
-    logo: "assets/tools/cadvisor.png"
-    subtitle: "Provides container resource usage and performance"
-    #tag: "setup"
-    url: "https://cadvisor.jest-home.de"
-  - name: "DDNSUpdater"
-    logo: "assets/tools/ddnsupdater.png"
-    subtitle: "Update DNS records for multiple providers"
-    #tag: "setup"
-    url: "https://ddnsupdater.jest-home.de"
-  - name: "Emby"
-    logo: "assets/tools/emby.png"
-    subtitle: "Personal media library manager and streaming provider"
-    #tag: "setup"
-    url: "https://emby.jest-home.de"
-  - name: "Filebrowser"
-    logo: "assets/tools/filebrowser.png"
-    subtitle: "Filebrowser for managing your files"
-    #tag: "setup"
-    url: "https://filebrowser.jest-home.de"
-  - name: "Firefly III"
-    logo: "assets/tools/firefly.png"
-    subtitle: "Personal finances manager"
-    #tag: "setup"
-    url: "https://firefly.jest-home.de"
-  - name: "Grafana"
-    logo: "assets/tools/grafana.png"
-    subtitle: "Open source analytics & monitoring"
-    #tag: "setup"
-    url: "https://grafana.jest-home.de"
-  - name: "Homeassistant"
-    logo: "assets/tools/homeassistant.png"
-    subtitle: "Open source home automation"
-    #tag: "setup"
-    url: "https://homeassistant.jest-home.de"
-  - name: "Pi-hole"
-    logo: "assets/tools/pihole.png"
-    subtitle: "Adblocker for your home network"
-    #tag: "setup"
-    url: "https://pihole.jest-home.de"
-  - name: "Portainer"
-    logo: "assets/tools/portainer.png"
-    subtitle: "Container management software"
-    #tag: "setup"
-    url: "https://portainer.jest-home.de"
-  - name: "Prometheus"
-    logo: "assets/tools/prometheus.png"
-    subtitle: "Open source monitoring system"
-    #tag: "setup"
-    url: "https://prometheus.jest-home.de"
-  - name: "pyLoad"
-    logo: "assets/tools/pyload.png"
-    subtitle: "Download manager"
-    #tag: "setup"
-    url: "https://pyload.jest-home.de"
-  - name: "Traefik"
-    logo: "assets/tools/traefik.png"
-    subtitle: "Reverse proxy & load balancer"
-    #tag: "setup"
-    url: "https://traefik.jest-home.de"
-  - name: "Unifi Gateway"
-    logo: "assets/tools/unifi.png"
-    subtitle: "Network gateway powered by Unifi"
-    #tag: "setup"
-    url: "https://unifi.jest-home.de"
+  - name: Authentik
+    logo: assets/tools/authentik.png
+    subtitle: Open-Source Identity Provider & SSO
+    url: https://authentik.jest-home.de
+    target: _blank
+  - name: Bitwarden
+    logo: assets/tools/bitwarden.png
+    subtitle: Password manager
+    url: https://bitwarden.jest-home.de
+    target: _blank
+- name: Media
+  icon: fas fa-film
+  items:
+  - name: Filebrowser
+    logo: assets/tools/filebrowser.png
+    subtitle: Manage your files
+    url: https://filebrowser.jest-home.de
+    target: _blank
+  - name: Emby
+    logo: assets/tools/emby.png
+    subtitle: Personal media-library
+    url: https://emby.jest-home.de
+    target: _blank
+  - name: pyLoad
+    logo: assets/tools/pyload.png
+    subtitle: Download manager
+    url: https://pyload.jest-home.de
+    target: _blank
+- name: Services
+  icon: fab fa-servicestack
+  items:
+  - name: Firefly III
+    logo: assets/tools/firefly.png
+    subtitle: Personal finances manager
+    url: https://firefly.jest-home.de
+    target: _blank
+  - name: Homeassistant
+    logo: assets/tools/homeassistant.png
+    subtitle: Open source home automation
+    url: https://homeassistant.jest-home.de
+    target: _blank
+- name: Monitoring
+  icon: fas fa-chart-line
+  items:
+  - name: Grafana
+    logo: assets/tools/grafana.png
+    subtitle: Open source analytics & monitoring
+    url: https://grafana.jest-home.de
+    target: _blank
+  - name: Prometheus
+    logo: assets/tools/prometheus.png
+    subtitle: Open source monitoring system
+    url: https://prometheus.jest-home.de
+    target: _blank
+  - name: cAdvisor
+    logo: assets/tools/cadvisor.png
+    subtitle: Container resource usage & performance
+    url: https://cadvisor.jest-home.de
+    target: _blank
+- name: Mangement
+  icon: fas fa-bars-progress
+  items:
+  - name: Portainer
+    logo: assets/tools/portainer.png
+    subtitle: Container management software
+    url: https://portainer.jest-home.de
+    target: _blank
+  - name: Unifi Gateway
+    logo: assets/tools/unifi.png
+    subtitle: Gateway powered by Unifi
+    url: https://unifi.jest-home.de
+    target: _blank
+- name: Network
+  icon: fas fa-ethernet
+  items:
+  - name: Pi-hole
+    logo: assets/tools/pihole.png
+    subtitle: Adblocker for home networks
+    url: https://pihole.jest-home.de
+    target: _blank
+  - name: Traefik
+    logo: assets/tools/traefik.png
+    subtitle: Reverse proxy & load balancer
+    url: https://traefik.jest-home.de
+    target: _blank
+  - name: DDNSUpdater
+    logo: assets/tools/ddnsupdater.png
+    subtitle: DNS records updater
+    url: https://ddnsupdater.jest-home.de
+    target: _blank
