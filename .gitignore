@@ -5,6 +5,7 @@
 !*.md
 !LICENSE
 !.gitignore
+!.gitattributes
 !*.yaml
 !*.yml
 !*.json
@@ -34,6 +35,7 @@
 !services/homeassistant/
 !services/homer/
 !services/homer/config/
+!services/homer/config/**
 !services/immich/
 !services/portainer/
 !services/prometheus/
