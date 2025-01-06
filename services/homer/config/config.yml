@@ -43,7 +43,7 @@ colors:
 links:
 - name: AWS
   icon: fab fa-aws
-  url: https://eu-north-1.signin.aws.amazon.com/oauth?client_id=arn%3Aaws%3Asignin%3A%3A%3Aconsole%2Fcanvas&code_challenge=rKWcYIS3xSi5XijfN6-xml5I2bN-30H9LbPEh7VPLlQ&code_challenge_method=SHA-256&response_type=code&redirect_uri=https%3A%2F%2Fconsole.aws.amazon.com%2Fconsole%2Fhome%3FhashArgs%3D%2523%26isauthcode%3Dtrue%26nc2%3Dh_ct%26src%3Dheader-signin%26state%3DhashArgsFromTB_eu-north-1_585ee4bc81ae8dc8
+  url: https://signin.aws.amazon.com/signin?client_id=arn%3Aaws%3Asignin%3A%3A%3Aconsole%2Fs3tb&redirect_uri=https%3A%2F%2Feu-central-1.console.aws.amazon.com%2Fs3%2Fbuckets%3FbucketType%3Dgeneral%26hashArgs%3D%2523%26isauthcode%3Dtrue%26oauthStart%3D1736171639294%26region%3Deu-central-1%26state%3DhashArgsFromTB_eu-central-1_88b0135fa8b16197&page=resolve&code_challenge=DLPIhshpo2euKZrV68I39IAfkjR2-hY-KVzD9dGwTq8&code_challenge_method=SHA-256&backwards_compatible=true
   target: _blank
 - name: DDL-Warez
   icon: fas fa-circle-down
