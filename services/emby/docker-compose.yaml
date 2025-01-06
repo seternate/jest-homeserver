@@ -23,10 +23,10 @@ services:
     - ${TV_SHOW_DIRECTORY:-./tvshow}:/mnt/tvshow:ro
     - ${MOVIE_DIRECTORY:-./movie}:/mnt/movie:ro
     - ${PUBLIC_DIRECTORY:-./public}/Medien:/mnt/media:ro
-    - ${LEVIN_DIRECTORY:-./levin}/Bilder:/mnt/pictures/levin
-    - ${KATRIN_DIRECTORY:-./katrin}/Fotos:/mnt/pictures/katrin
-    - ${SHARE_DIRECTORY:-./share}/Fotos:/mnt/pictures/share
-    - ${SHARE_DIRECTORY:-./share}/Musik:/mnt/music
+    - ${LEVIN_DIRECTORY:-./levin}/Bilder:/mnt/pictures/levin:ro
+    - ${KATRIN_DIRECTORY:-./katrin}/Fotos:/mnt/pictures/katrin:ro
+    - ${SHARE_DIRECTORY:-./share}/Fotos:/mnt/pictures/share:ro
+    - ${SHARE_DIRECTORY:-./share}/Musik:/mnt/music:ro
     devices:
     - /dev/dri:/dev/dri # VAAPI/NVDEC/NVENC render nodes
     networks:
