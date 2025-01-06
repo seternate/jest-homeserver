@@ -14,9 +14,6 @@ networks:
 - traefik
 ```
 
-<!-- ### DNS
-Service URL must be added to DNS service in order to be reached from the web -->
-
 ## Customization
 The following labels can be used for customization if neeeded:
 
@@ -33,3 +30,9 @@ To protect any homepage with an auth add the folloing labels to you service defi
 labels:
   traefik.http.routers.<service-name>.middlewares: authentik@docker
 ```
+
+## FAQ
+
+### URL can not be resolved
+Service URL must be added to DNS service provider in order to be reached from the web.
+ 
