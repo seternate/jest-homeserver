@@ -17,5 +17,11 @@
     - name: install aws-cli
       ansible.builtin.import_tasks: ../../tasks/install-aws-cli.yaml
 
+    - name: install git-lfs
+      become: yes
+      ansible.builtin.apt:
+        name: 
+        - git-lfs
+
     - name: change-system-passwords
       ansible.builtin.import_tasks: ../../tasks/change-passwords.yaml
