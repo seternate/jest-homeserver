@@ -17,6 +17,7 @@ services:
     #   timeout: 5s
     #   retries: 3
     volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
     - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/restic}/log:/log
     - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/prometheus}/nodeexporter:/prometheus
     - ./config:/resticprofile:ro
