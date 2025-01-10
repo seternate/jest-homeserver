@@ -30,6 +30,7 @@ template:
       - "/{{ .Profile.Name }}"
     host: jest
     group-by: paths
+    skip-if-unchanged: true
 
   retention:
     after-backup: true
@@ -40,23 +41,32 @@ template:
     keep-yearly: 2
     prune: true
 
-  check:
-    read-data: true
-
 levin:
   inherit: template
+levin-check:
+  inherit: levin
 
 katrin:
   inherit: template
+katrin-check:
+  inherit: katrin
 
 share:
   inherit: template
+share-check:
+  inherit: share
 
 public:
   inherit: template
+public-check:
+  inherit: public
 
 service-data:
   inherit: template
-  #backup:
-    #run-before:
-    #run-finally:
+  check:
+    read-data: true
+  # backup:
+  #   run-before: |
+  #     docker ps -q --filter "label=backup.enable=true" --filter "name=bitwarden" > /container && 
+  #     docker stop $(cat /container)
+  #   run-finally: docker start $(cat /container)
