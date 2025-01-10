@@ -46,6 +46,8 @@ levin:
     schedule: "02:00"
 levin-check:
   inherit: levin
+  backup:
+    schedule: ""
   check:
     schedule: "Sun 22:00"
     schedule-permission: system
@@ -61,6 +63,8 @@ katrin:
     schedule: "02:00"
 katrin-check:
   inherit: katrin
+  backup:
+    schedule: ""
   check:
     schedule: "Sun 22:00"
     schedule-permission: system
@@ -76,6 +80,8 @@ share:
     schedule: "02:00"
 share-check:
   inherit: share
+  backup:
+    schedule: ""
   check:
     schedule: "Sun 22:00"
     schedule-permission: system
@@ -91,6 +97,8 @@ public:
     schedule: "02:00"
 public-check:
   inherit: public
+  backup:
+    schedule: ""
   check:
     schedule: "Sun 22:00"
     schedule-permission: system
