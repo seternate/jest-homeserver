@@ -105,6 +105,7 @@ public-check:
     schedule-log-wait: 30m
     schedule-log: /log/{{ .Profile.Name }}_backup
     read-data: true
+    read-data-subset: 5%
 
 service-data:
   inherit: template
