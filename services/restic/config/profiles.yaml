@@ -109,5 +109,8 @@ service-data:
     run-before: >-
       docker ps -q --filter "label=backup.enable=true" > /container &&
       docker ps -q --filter "name=bitwarden" >> /container &&
+      echo "Stop all service containers for backup:" &&
       docker stop $(cat /container)
-    run-finally: docker start $(cat /container)
+    run-finally: >-
+      echo "Start all service containers stopped for backup:" &&
+      docker start $(cat /container)
