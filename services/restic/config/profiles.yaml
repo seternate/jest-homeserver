@@ -45,6 +45,8 @@ levin:
   password-file: "/run/secrets/levin_password"
 levin-check:
   inherit: levin
+  backup:
+    schedule: ""
   check:
     schedule: "Sun 22:00"
     schedule-permission: system
@@ -58,6 +60,8 @@ katrin:
   password-file: "/run/secrets/katrin_password"
 katrin-check:
   inherit: katrin
+  backup:
+    schedule: ""
   check:
     schedule: "Sun 22:00"
     schedule-permission: system
@@ -71,6 +75,8 @@ share:
   password-file: "/run/secrets/share_password"
 share-check:
   inherit: share
+  backup:
+    schedule: ""
   check:
     schedule: "Sun 22:00"
     schedule-permission: system
@@ -84,6 +90,8 @@ public:
   password-file: "/run/secrets/public_password"
 public-check:
   inherit: public
+  backup:
+    schedule: ""
   check:
     schedule: "Sun 22:00"
     schedule-permission: system
