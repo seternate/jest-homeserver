@@ -15,8 +15,6 @@ groups:
   - public
 
 template:
-  repository: "local:/{{ .Profile.Name }}_backup"
-  password-file: "/run/secrets/{{ .Profile.Name }}_password"
   lock: /tmp/resticprofile-{{ .Profile.Name }}.lock
   prometheus-save-to-file: /prometheus/{{ .Profile.Name}}.prom
 
@@ -43,26 +41,60 @@ template:
 
 levin:
   inherit: template
+  repository: "local:/levin_backup"
+  password-file: "/run/secrets/levin_password"
 levin-check:
   inherit: levin
+  check:
+    schedule: "Sun 22:00"
+    schedule-permission: system
+    schedule-log-wait: 30m
+    schedule-log: /log/{{ .Profile.Name }}_backup
+    read-data: true
 
 katrin:
   inherit: template
+  repository: "local:/katrin_backup"
+  password-file: "/run/secrets/katrin_password"
 katrin-check:
   inherit: katrin
+  check:
+    schedule: "Sun 22:00"
+    schedule-permission: system
+    schedule-log-wait: 30m
+    schedule-log: /log/{{ .Profile.Name }}_backup
+    read-data: true
 
 share:
   inherit: template
+  repository: "local:/share_backup"
+  password-file: "/run/secrets/share_password"
 share-check:
   inherit: share
+  check:
+    schedule: "Sun 22:00"
+    schedule-permission: system
+    schedule-log-wait: 30m
+    schedule-log: /log/{{ .Profile.Name }}_backup
+    read-data: true
 
 public:
   inherit: template
+  repository: "local:/public_backup"
+  password-file: "/run/secrets/public_password"
 public-check:
   inherit: public
+  check:
+    schedule: "Sun 22:00"
+    schedule-permission: system
+    schedule-log-wait: 30m
+    schedule-log: /log/{{ .Profile.Name }}_backup
+    read-data: true
 
 service-data:
   inherit: template
+  repository: "local:/service-data_backup"
+  password-file: "/run/secrets/service-data_password"
   check:
     read-data: true
   # backup:
