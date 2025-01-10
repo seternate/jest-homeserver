@@ -19,7 +19,6 @@ template:
   prometheus-save-to-file: /prometheus/{{ .Profile.Name}}.prom
 
   backup:
-    schedule: "02:00"
     schedule-permission: system
     schedule-log-wait: 30m
     schedule-log: /log/{{ .Profile.Name }}_backup
@@ -43,10 +42,10 @@ levin:
   inherit: template
   repository: "local:/levin_backup"
   password-file: "/run/secrets/levin_password"
+  backup:
+    schedule: "02:00"
 levin-check:
   inherit: levin
-  backup:
-    schedule: ""
   check:
     schedule: "Sun 22:00"
     schedule-permission: system
@@ -58,10 +57,10 @@ katrin:
   inherit: template
   repository: "local:/katrin_backup"
   password-file: "/run/secrets/katrin_password"
+  backup:
+    schedule: "02:00"
 katrin-check:
   inherit: katrin
-  backup:
-    schedule: ""
   check:
     schedule: "Sun 22:00"
     schedule-permission: system
@@ -73,10 +72,10 @@ share:
   inherit: template
   repository: "local:/share_backup"
   password-file: "/run/secrets/share_password"
+  backup:
+    schedule: "02:00"
 share-check:
   inherit: share
-  backup:
-    schedule: ""
   check:
     schedule: "Sun 22:00"
     schedule-permission: system
@@ -88,10 +87,10 @@ public:
   inherit: template
   repository: "local:/public_backup"
   password-file: "/run/secrets/public_password"
+  backup:
+    schedule: "02:00"
 public-check:
   inherit: public
-  backup:
-    schedule: ""
   check:
     schedule: "Sun 22:00"
     schedule-permission: system
@@ -106,6 +105,7 @@ service-data:
   check:
     read-data: true
   backup:
+    schedule: "02:00"
     run-before: >-
       docker ps -q --filter "label=backup.enable=true" > /container &&
       docker ps -q --filter "name=bitwarden" >> /container &&
