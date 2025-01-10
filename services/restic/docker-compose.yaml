@@ -5,17 +5,17 @@ services:
     container_name: restic
     environment:
       TZ: Europe/Berlin
-    entrypoint:
-    - /bin/sh
-    - -c
-    - while true; do sleep infinity; done
-    # healthcheck:
-    #   test: ["CMD-SHELL", "curl --silent http://127.0.0.1:8000/ || exit 1"]
-    #   start_period: 60s
-    #   start_interval: 5s
-    #   interval: 60s
-    #   timeout: 5s
-    #   retries: 3
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - resticprofile schedule --all && crond -f
+    healthcheck:
+      test: ["CMD-SHELL", "resticprofile profiles"]
+      start_period: 60s
+      start_interval: 5s
+      interval: 60s
+      timeout: 5s
+      retries: 3
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/restic}/log:/log
