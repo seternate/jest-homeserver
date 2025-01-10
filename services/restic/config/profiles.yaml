@@ -106,7 +106,7 @@ service-data:
   check:
     read-data: true
   backup:
-    run-before: |
+    run-before: >-
       docker ps -q --filter "label=backup.enable=true" --filter "name=bitwarden" > /container && 
       docker stop $(cat /container)
     run-finally: docker start $(cat /container)
