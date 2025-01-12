@@ -9,10 +9,18 @@ global:
 groups:
   full:
   - service-data
+  - service-secrets
   - levin
   - katrin
   - share
   - public
+  check:
+  - service-data
+  - service-secrets
+  - levin-check
+  - katrin-check
+  - share-check
+  - public-check
 
 template:
   lock: /tmp/resticprofile-{{ .Profile.Name }}.lock
@@ -122,3 +130,12 @@ service-data:
     run-finally: >-
       echo "Start all service containers stopped for backup:" &&
       docker start $(cat /container)
+
+service-secrets:
+  inherit: template
+  repository: "local:/service-secrets_backup"
+  password-file: "/run/secrets/service-secrets_password"
+  check:
+    read-data: true
+  backup:
+    schedule: "02:00"

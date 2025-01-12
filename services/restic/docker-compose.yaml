@@ -29,6 +29,8 @@ services:
     - ${SHARE_BACKUP_DIRECTORY:-./share_backup}:/share_backup
     - ${DATA_FOLDER_PATH:-./service-data}:/service-data:ro
     - ${DATA_FOLDER_BACKUP_PATH:-./service-data-backup}:/service-data_backup
+    - ${DATA_FOLDER_PATH:-./service-secrets}:/service-secrets:ro
+    - ${DATA_FOLDER_BACKUP_PATH:-./service-secrets-backup}:/service-secrets_backup
     - ${PUBLIC_DIRECTORY:-./public}:/public:ro
     - ${PUBLIC_BACKUP_DIRECTORY:-./public_backup}:/public_backup
     secrets:
@@ -36,6 +38,7 @@ services:
     - katrin_password
     - share_password
     - service-data_password
+    - service-secrets_password
     - public_password
     networks:
     - restic
@@ -51,6 +54,8 @@ secrets:
     file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/restic}/share_password
   service-data_password:
     file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/restic}/service-data_password
+  service-secrets_password:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/restic}/service-secrets_password
   public_password:
     file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/restic}/public_password
 
