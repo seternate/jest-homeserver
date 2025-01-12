@@ -4,6 +4,7 @@ include:
 - path: ./authentik/docker-compose.yaml
 - path: ./bitwarden-updater/docker-compose.yaml
 - path: ./ddns-updater/docker-compose.yaml
+- path: ./docker-image-pruner/docker-compose.yaml
 - path: ./emby/docker-compose.yaml
 - path: ./filebrowser/docker-compose.yaml
 - path: ./firefly/docker-compose.yaml
