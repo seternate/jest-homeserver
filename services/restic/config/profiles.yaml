@@ -16,7 +16,7 @@ groups:
 
 template:
   lock: /tmp/resticprofile-{{ .Profile.Name }}.lock
-  prometheus-save-to-file: /prometheus/{{ .Profile.Name}}.prom
+  prometheus-save-to-file: /prometheus/resticprofile_{{ .Profile.Name}}.prom
 
   backup:
     schedule-permission: system
