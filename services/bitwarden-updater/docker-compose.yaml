@@ -7,7 +7,7 @@ services:
     command:
     - -c
     # - echo \"0 5 * * * /scripts/update_bitwarden.sh\" | crontab - && crond -f -L /dev/stdout
-    - while true; sleep inf; do
+    - while true; do sleep inf; done
     # healthcheck:
     #   test: ["CMD-SHELL", "contab -l && diff $(cat /health) \"0\""]
     #   start_period: 60s
