@@ -11,6 +11,7 @@
 !*.json
 !*.j2
 !ansible.cfg
+!*.sh
 
 !ansible/
 !ansible/jest/
@@ -26,6 +27,8 @@
 !ansible/tasks/
 !services/
 !services/authentik/
+!services/bitwarden-updater/
+!services/bitwarden-updater/config/
 !services/ddns-updater/
 !services/emby/
 !services/filebrowser/

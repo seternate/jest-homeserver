@@ -6,7 +6,7 @@ services:
     entrypoint: /bin/sh
     command:
     - -c
-    # - echo \"0 5 * * * /scripts/update_bitwarden.sh\" | crontab - && crond -f -L /dev/stdout
+    - apk add curl bash && (echo \"0 5 * * * /scripts/update_bitwarden.sh\" | crontab -) && crond -f -L /dev/stdout
     - while true; do sleep inf; done
     healthcheck:
       test: ["CMD-SHELL", "crontab -l && grep \"0\" < /health"]
