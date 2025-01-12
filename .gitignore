@@ -30,6 +30,8 @@
 !services/bitwarden-updater/
 !services/bitwarden-updater/config/
 !services/ddns-updater/
+!services/docker-image-pruner/
+!services/docker-image-pruner/config/
 !services/emby/
 !services/filebrowser/
 !services/filebrowser/config/

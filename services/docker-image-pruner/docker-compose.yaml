@@ -1,0 +1,26 @@
+services:
+
+  dockerimagepruner:
+    image: docker:27.4.1-cli
+    container_name: dockerimagepruner
+    entrypoint: /bin/sh
+    command:
+    - -c
+    - "echo \"0\" > /health && echo \"0 12 * * 1 /scripts/prune_images.sh\" | crontab - && crond -f -L /dev/stdout"
+    healthcheck:
+      test: ["CMD-SHELL", "crontab -l && grep \"0\" < /health > /dev/null"]
+      start_period: 60s
+      start_interval: 5s
+      interval: 60s
+      timeout: 5s
+      retries: 3
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - ./config:/scripts:ro
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/prometheus}/nodeexporter:/prometheus
+    networks:
+    - dockerimagepruner
+    restart: unless-stopped
+
+networks:
+  dockerimagepruner:
