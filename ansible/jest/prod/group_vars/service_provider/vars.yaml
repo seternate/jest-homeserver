@@ -66,6 +66,7 @@ services:
   secret:
     aws_bucket: jest-services-secrets
     directory: /mnt/jest/service-secrets
+    directory_backup: /mnt/jest_backup/service-secrets
     fail_directory_exists: false
     delete_archives: true
   bitwarden:
