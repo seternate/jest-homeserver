@@ -2,6 +2,7 @@ name: services
 
 include:
 - path: ./authentik/docker-compose.yaml
+- path: ./bitwarden-updater/docker-compose.yaml
 - path: ./ddns-updater/docker-compose.yaml
 - path: ./emby/docker-compose.yaml
 - path: ./filebrowser/docker-compose.yaml
