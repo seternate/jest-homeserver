@@ -6,9 +6,9 @@ services:
     entrypoint: /bin/sh
     command:
     - -c
-    - "echo \"0\" > /health && echo \"0 12 * * 1 /scripts/prune_images.sh\" | crontab - && crond -f -L /dev/stdout"
+    - "echo \"0 12 * * 1 /scripts/prune_images.sh\" | crontab - && crond -f -L /dev/stdout"
     healthcheck:
-      test: ["CMD-SHELL", "crontab -l && grep \"0\" < /health > /dev/null"]
+      test: ["CMD-SHELL", "crontab -l"]
       start_period: 60s
       start_interval: 5s
       interval: 60s
