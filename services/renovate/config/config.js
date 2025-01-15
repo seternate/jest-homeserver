@@ -1,6 +1,6 @@
 module.exports = async function () {  
   
-  const token = fs.readFileSync("/run/secrets/renovate_token")
+  const token = fs.readFileSync("/run/secrets/renovate_token").toString()
 
   return {
     token: token,
