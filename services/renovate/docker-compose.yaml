@@ -20,7 +20,7 @@ services:
     - /var/run/docker.sock:/var/run/docker.sock
     - ./config/renovate.sh:/scripts/renovate.sh:ro
     - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/prometheus}/nodeexporter:/prometheus
-    - ../:../:ro
+    - ../:${PWD}:ro
     networks:
     - renovatecron
     restart: unless-stopped
