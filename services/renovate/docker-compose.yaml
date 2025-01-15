@@ -27,6 +27,7 @@ services:
   renovate:
     image: renovate/renovate:39.106-full
     container_name: renovate
+    # Prevents startup of container with docker compose up
     profiles: 
     - renovate
     volumes:
