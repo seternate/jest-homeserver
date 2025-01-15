@@ -18,13 +18,14 @@ services:
     - /var/run/docker.sock:/var/run/docker.sock
     - ./config/renovate.sh:/scripts/renovate.sh:ro
     - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/prometheus}/nodeexporter:/prometheus
+    #SERVICE NEEDS TO BE MOUNTED OR IT CAN NOT BE RUN
     networks:
     - renovatecron
     restart: unless-stopped
 
   # No health check needed - service runs as a scheduled cronjob, see renovatecron service above
   renovate:
-    image: renovate/renovate:39.106
+    image: renovate/renovate:39.106-full
     container_name: renovate
     profiles: 
     - renovate
