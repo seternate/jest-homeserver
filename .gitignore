@@ -12,6 +12,7 @@
 !*.j2
 !ansible.cfg
 !*.sh
+!*.js
 
 !ansible/
 !ansible/jest/
@@ -46,6 +47,8 @@
 !services/prometheus/
 !services/prometheus/config/
 !services/pyload/
+!services/renovate/
+!services/renovate/config/
 !services/restic/
 !services/restic/config/
 !services/traefik/
