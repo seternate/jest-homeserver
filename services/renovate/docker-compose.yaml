@@ -35,7 +35,7 @@ services:
     - renovate_token
     networks:
     - renovate
-    restart: unless-stopped
+    restart: never
 
 secrets:
 
