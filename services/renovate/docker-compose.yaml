@@ -6,7 +6,7 @@ services:
     entrypoint: /bin/sh
     command:
     - -c
-    - "echo \"0 8 * * 3 docker compose --profile renovate up renovate\" | crontab - && crond -f -L /dev/stdout"
+    - "echo \"0 8 * * 3 /scripts/renovate.sh\" | crontab - && crond -f -L /dev/stdout"
     healthcheck:
       test: ["CMD-SHELL", "crontab -l"]
       start_period: 60s
@@ -16,6 +16,8 @@ services:
       retries: 3
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
+    - ./config/renovate.sh:/scripts/renovate.sh:ro
+    - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/prometheus}/nodeexporter:/prometheus
     networks:
     - renovatecron
     restart: unless-stopped
@@ -26,8 +28,6 @@ services:
     container_name: renovate
     profiles: 
     - renovate
-    command:
-    - --dry-run
     volumes:
     - ./config/config.js:/usr/src/app/config.js:ro
     secrets:
