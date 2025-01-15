@@ -1,0 +1,46 @@
+services:
+
+  renovatecron:
+    image: docker:27.4.1-cli
+    container_name: renovatecron
+    entrypoint: /bin/sh
+    command:
+    - -c
+    - "echo \"0 8 * * 3 docker compose --profile renovate up renovate\" | crontab - && crond -f -L /dev/stdout"
+    healthcheck:
+      test: ["CMD-SHELL", "crontab -l"]
+      start_period: 60s
+      start_interval: 5s
+      interval: 60s
+      timeout: 5s
+      retries: 3
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+    - renovatecron
+    restart: unless-stopped
+
+  # No health check needed - service runs as a scheduled cronjob, see renovatecron service above
+  renovate:
+    image: renovate/renovate:39.106
+    container_name: renovate
+    profiles: 
+    - renovate
+    command:
+    - --dry-run
+    volumes:
+    - ./config/config.js:/usr/src/app/config.js:ro
+    secrets:
+    - renovate_token
+    networks:
+    - renovate
+    restart: unless-stopped
+
+secrets:
+
+  renovate_token:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/renovate}/token
+
+networks:
+  renovatecron:
+  renovate:
