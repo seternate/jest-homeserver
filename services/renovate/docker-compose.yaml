@@ -18,7 +18,7 @@ services:
     - /var/run/docker.sock:/var/run/docker.sock
     - ./config/renovate.sh:/scripts/renovate.sh:ro
     - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/prometheus}/nodeexporter:/prometheus
-    #SERVICE NEEDS TO BE MOUNTED OR IT CAN NOT BE RUN
+    - ../:/docker:ro
     networks:
     - renovatecron
     restart: unless-stopped

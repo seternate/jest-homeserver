@@ -1,6 +1,6 @@
 #!/bin/sh
 
-docker compose up --abort-on-container-failure renovate
+docker compose --file /docker/docker-compose.yaml up --abort-on-container-failure renovate
 renovate_status=$?
 docker compose down renovate
 
