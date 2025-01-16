@@ -5,10 +5,11 @@ services:
     container_name: restic
     environment:
       TZ: Europe/Berlin
+      AWS_DEFAULT_REGION: eu-central-1
     entrypoint: /bin/sh
     command:
       - -c
-      - resticprofile schedule --all && crond -f -L /dev/stdout
+      - export AWS_ACCESS_KEY_ID=$(cat /run/secrets/AWS_ACCESS_KEY_ID) && export AWS_SECRET_ACCESS_KEY=$(cat /run/secrets/AWS_SECRET_ACCESS_KEY) && resticprofile schedule --all && crond -f -L /dev/stdout
     healthcheck:
       test: ["CMD-SHELL", "resticprofile profiles"]
       start_period: 60s
@@ -40,6 +41,8 @@ services:
     - service-data_password
     - service-secrets_password
     - public_password
+    - AWS_ACCESS_KEY_ID
+    - AWS_SECRET_ACCESS_KEY
     networks:
     - restic
     restart: unless-stopped
@@ -58,6 +61,10 @@ secrets:
     file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/restic}/service-secrets_password
   public_password:
     file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/restic}/public_password
+  AWS_ACCESS_KEY_ID:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/restic}/AWS_ACCESS_KEY_ID
+  AWS_SECRET_ACCESS_KEY:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/restic}/AWS_SECRET_ACCESS_KEY
 
 networks:
   restic:

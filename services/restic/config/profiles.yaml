@@ -46,6 +46,8 @@ template:
     keep-yearly: 2
     prune: true
 
+### Local profiles
+
 levin:
   inherit: template
   repository: "local:/levin_backup"
@@ -139,3 +141,95 @@ service-secrets:
     read-data: true
   backup:
     schedule: "02:00"
+
+## AWS profiles
+
+template-aws:
+  inherit: template
+
+  retention:
+    after-backup: true
+    group-by: paths
+    keep-weekly: 12
+    keep-monthly: 6
+    keep-yearly: 2
+    prune: true
+
+# levin-aws:
+#   inherit: template
+#   repository: "s3:<bucket>"
+#   password-file: "/run/secrets/levin_password"
+#   backup:
+#     schedule: "02:00"
+# levin-aws-check:
+#   inherit: levin-aws
+#   backup:
+#     schedule: ""
+#   check:
+#     schedule: "Sun 22:00"
+#     schedule-permission: system
+#     schedule-log-wait: 30m
+#     schedule-log: /log/{{ .Profile.Name }}_backup
+#     read-data: true
+
+# katrin:
+#   inherit: template
+#   repository: "local:/katrin_backup"
+#   password-file: "/run/secrets/katrin_password"
+#   backup:
+#     schedule: "02:00"
+# katrin-check:
+#   inherit: katrin
+#   backup:
+#     schedule: ""
+#   check:
+#     schedule: "Sun 22:00"
+#     schedule-permission: system
+#     schedule-log-wait: 30m
+#     schedule-log: /log/{{ .Profile.Name }}_backup
+#     read-data: true
+
+# share:
+#   inherit: template
+#   repository: "local:/share_backup"
+#   password-file: "/run/secrets/share_password"
+#   backup:
+#     schedule: "02:00"
+# share-check:
+#   inherit: share
+#   backup:
+#     schedule: ""
+#   check:
+#     schedule: "Sun 22:00"
+#     schedule-permission: system
+#     schedule-log-wait: 30m
+#     schedule-log: /log/{{ .Profile.Name }}_backup
+#     read-data: true
+
+# service-data:
+#   inherit: template
+#   repository: "s3:s3://jest-backup/service-data/"
+#   password-file: "/run/secrets/service-data_password"
+#   check:
+#     read-data: true
+#   backup:
+#     schedule: "02:00"
+#     run-before: >-
+#       docker ps -q --filter "label=backup.enable=true" > /container &&
+#       docker ps -q --filter "name=bitwarden" >> /container &&
+#       echo "Stop all service containers for backup:" &&
+#       docker stop $(cat /container)
+#     run-finally: >-
+#       echo "Start all service containers stopped for backup:" &&
+#       docker start $(cat /container)
+
+service-secrets-aws:
+  inherit: template-aws
+  repository: "s3:s3://jest-backup/service-data/"
+  password-file: "/run/secrets/service-secrets_password"
+  check:
+    read-data: true
+  backup:
+    schedule: "Mon 02:00"
+    source:
+    - /service-secrets
