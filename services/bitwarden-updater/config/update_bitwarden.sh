@@ -1,10 +1,12 @@
 #!/bin/sh
 
 # Run updates
-echo "y" | ${BITWARDEN_PATH}/bitwarden.sh updateself
+cd ${BITWARDEN_PATH}
+echo "y" | ./bitwarden.sh updateself
 updateself_status=$?
-echo "y" | ${BITWARDEN_PATH}/bitwarden.sh update
+echo "y" | ./bitwarden.sh update
 update_status=$?
+cd - > /dev/null
 
 #Write metrics to file for prometheus
 printf "# HELP bitwarden_updater_updateself_status Updateself status: 0=success, 1>=fail\n" > /prometheus/bitwarden_updater.prom
