@@ -225,7 +225,7 @@ template-aws:
 
 service-secrets-aws:
   inherit: template-aws
-  repository: "s3:s3://jest-backup/service-data/"
+  repository: "s3:https://s3.eu-central-1.amazonaws.com/jest-backup/service-data/"
   password-file: "/run/secrets/service-secrets_password"
   check:
     read-data: true
