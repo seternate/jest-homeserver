@@ -7,6 +7,8 @@ services:
     command:
     - -c
     - "apk add curl bash && echo \"0 5 * * * /scripts/update_bitwarden.sh\" | crontab - && crond -f -L /dev/stdout"
+    environment:
+      BITWARDEN_PATH: ${DATA_FOLDER_PATH:-./service-data}/bitwarden
     healthcheck:
       test: ["CMD-SHELL", "crontab -l"]
       start_period: 60s
@@ -17,7 +19,7 @@ services:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - ./config:/scripts:ro
-    - ${DATA_FOLDER_PATH:-./service-data}/bitwarden:/bitwarden
+    - ${DATA_FOLDER_PATH:-./service-data}/bitwarden:${DATA_FOLDER_PATH:-./service-data}/bitwarden
     - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/prometheus}/nodeexporter:/prometheus
     networks:
     - bitwardenupdater

@@ -1,9 +1,9 @@
 #!/bin/sh
 
 # Run updates
-echo "y" | /bitwarden/bitwarden.sh updateself
+echo "y" | ${BITWARDEN_PATH}/bitwarden.sh updateself
 updateself_status=$?
-echo "y" | /bitwarden/bitwarden.sh update
+echo "y" | ${BITWARDEN_PATH}/bitwarden.sh update
 update_status=$?
 
 #Write metrics to file for prometheus
