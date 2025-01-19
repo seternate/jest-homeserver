@@ -151,22 +151,24 @@ template-aws:
     keep-yearly: 2
     prune: true
 
-# levin-aws:
-#   inherit: template
-#   repository: "s3:<bucket>"
-#   password-file: "/run/secrets/levin_password"
-#   backup:
-#     schedule: "02:00"
-# levin-aws-check:
-#   inherit: levin-aws
-#   backup:
-#     schedule: ""
-#   check:
-#     schedule: "Sun 22:00"
-#     schedule-permission: system
-#     schedule-log-wait: 30m
-#     schedule-log: /log/{{ .Profile.Name }}_backup
-#     read-data: true
+levin-aws:
+  inherit: template-aws
+  repository: "s3:https://s3.eu-central-1.amazonaws.com/jest-backup/levin/"
+  password-file: "/run/secrets/levin_password"
+  backup:
+    schedule: "Mon 02:00"
+    source:
+    - /levin
+levin-aws-check:
+  inherit: levin-aws
+  backup:
+    schedule: ""
+  check:
+    schedule: "Sun 22:00"
+    schedule-permission: system
+    schedule-log-wait: 30m
+    schedule-log: /log/{{ .Profile.Name }}_backup
+    read-data: true
 
 # katrin:
 #   inherit: template
@@ -190,7 +192,7 @@ share-aws:
   repository: "s3:https://s3.eu-central-1.amazonaws.com/jest-backup/share/"
   password-file: "/run/secrets/share_password"
   backup:
-    schedule: "Mo 02:00"
+    schedule: "Mon 02:00"
     source:
     - /share
 share-check-aws:
@@ -211,7 +213,7 @@ service-data-aws:
   check:
     read-data: true
   backup:
-    schedule: "Mo 02:00"
+    schedule: "Mon 02:00"
     run-before: |-
       touch /semaphore/{{ .Profile.Name }}
       if [ $(find /semaphore -type f | grep -v {{ .Profile.Name }} | wc -l) -ge 1 ]; then
