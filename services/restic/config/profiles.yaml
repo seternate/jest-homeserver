@@ -6,22 +6,6 @@ global:
   log: /log/resticprofile.log
   scheduler: crond
 
-groups:
-  full:
-  - service-data
-  - service-secrets
-  - levin
-  - katrin
-  - share
-  - public
-  check:
-  - service-data
-  - service-secrets
-  - levin-check
-  - katrin-check
-  - share-check
-  - public-check
-
 template:
   lock: /tmp/resticprofile-{{ .Profile.Name }}.lock
   prometheus-save-to-file: /prometheus/resticprofile_{{ .Profile.Name}}.prom
