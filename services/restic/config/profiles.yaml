@@ -201,25 +201,27 @@ template-aws:
 #     schedule-log: /log/{{ .Profile.Name }}_backup
 #     read-data: true
 
-# share:
-#   inherit: template
-#   repository: "local:/share_backup"
-#   password-file: "/run/secrets/share_password"
-#   backup:
-#     schedule: "02:00"
-# share-check:
-#   inherit: share
-#   backup:
-#     schedule: ""
-#   check:
-#     schedule: "Sun 22:00"
-#     schedule-permission: system
-#     schedule-log-wait: 30m
-#     schedule-log: /log/{{ .Profile.Name }}_backup
-#     read-data: true
+share-aws:
+  inherit: template-aws
+  repository: "s3:https://s3.eu-central-1.amazonaws.com/jest-backup/share/"
+  password-file: "/run/secrets/share_password"
+  backup:
+    schedule: "Mo 02:00"
+    source:
+    - /share
+share-check-aws:
+  inherit: share-aws
+  backup:
+    schedule: ""
+  check:
+    schedule: "Sun 22:00"
+    schedule-permission: system
+    schedule-log-wait: 30m
+    schedule-log: /log/{{ .Profile.Name }}_backup
+    read-data: true
 
 service-data-aws:
-  inherit: template
+  inherit: template-aws
   repository: "s3:https://s3.eu-central-1.amazonaws.com/jest-backup/service-data/"
   password-file: "/run/secrets/service-data_password"
   check:
