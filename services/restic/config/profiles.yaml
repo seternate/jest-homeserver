@@ -209,7 +209,7 @@ template-aws:
 #     schedule-log: /log/{{ .Profile.Name }}_backup
 #     read-data: true
 
-service-data:
+service-data-aws:
   inherit: template
   repository: "s3:https://s3.eu-central-1.amazonaws.com/jest-backup/service-data/"
   password-file: "/run/secrets/service-data_password"
@@ -218,14 +218,26 @@ service-data:
   backup:
     schedule: "Mo 02:00"
     run-before: >-
-      if [ -n "$( ls -A '/semaphore')" ]; then exit 0; fi
+      touch /semaphore/{{ .Profile.Name }}
+      if [ $(find /semaphore -type f | grep -v {{ .Profile.Name }} | wc -l) -ge 1 ]; then
+        echo "Containers already stopped ..."
+        exit 0
+      fi
+      echo "Stop all service containers for backup:"
       docker ps -q --filter "label=backup.enable=true" > /container &&
       docker ps -q --filter "name=bitwarden" >> /container &&
-      echo "Stop all service containers for backup:" &&
       docker stop $(cat /container)
     run-finally: >-
-      echo "Start all service containers stopped for backup:" &&
+      if [ $(find /semaphore -type f | grep -v {{ .Profile.Name }} | wc -l) -ge 1 ]; then
+        rm /semaphore/{{ .Profile.Name }}
+        echo "Another backup is running will not restart containers ..."
+        exit 0
+      fi
+      rm /semaphore/{{ .Profile.Name }}
+      echo "Start all service containers stopped for backup:"
       docker start $(cat /container)
+    source:
+    - /service-data
 
 service-secrets-aws:
   inherit: template-aws
