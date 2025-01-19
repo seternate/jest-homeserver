@@ -36,6 +36,7 @@ template:
     host: jest
     group-by: paths
     skip-if-unchanged: true
+    ignore-inode: true
 
   retention:
     after-backup: true
@@ -125,13 +126,15 @@ service-data:
   backup:
     schedule: "02:00"
     run-before: >-
+      while [-f /container]; do sleep 1; done
       docker ps -q --filter "label=backup.enable=true" > /container &&
       docker ps -q --filter "name=bitwarden" >> /container &&
       echo "Stop all service containers for backup:" &&
       docker stop $(cat /container)
     run-finally: >-
       echo "Start all service containers stopped for backup:" &&
-      docker start $(cat /container)
+      docker start $(cat /container) &&
+      rm /container
 
 service-secrets:
   inherit: template
@@ -206,22 +209,23 @@ template-aws:
 #     schedule-log: /log/{{ .Profile.Name }}_backup
 #     read-data: true
 
-# service-data:
-#   inherit: template
-#   repository: "s3:s3://jest-backup/service-data/"
-#   password-file: "/run/secrets/service-data_password"
-#   check:
-#     read-data: true
-#   backup:
-#     schedule: "02:00"
-#     run-before: >-
-#       docker ps -q --filter "label=backup.enable=true" > /container &&
-#       docker ps -q --filter "name=bitwarden" >> /container &&
-#       echo "Stop all service containers for backup:" &&
-#       docker stop $(cat /container)
-#     run-finally: >-
-#       echo "Start all service containers stopped for backup:" &&
-#       docker start $(cat /container)
+service-data:
+  inherit: template
+  repository: "s3:https://s3.eu-central-1.amazonaws.com/jest-backup/service-data/"
+  password-file: "/run/secrets/service-data_password"
+  check:
+    read-data: true
+  backup:
+    schedule: "Mo 02:00"
+    run-before: >-
+      if [ -n "$( ls -A '/semaphore')" ]; then exit 0; fi
+      docker ps -q --filter "label=backup.enable=true" > /container &&
+      docker ps -q --filter "name=bitwarden" >> /container &&
+      echo "Stop all service containers for backup:" &&
+      docker stop $(cat /container)
+    run-finally: >-
+      echo "Start all service containers stopped for backup:" &&
+      docker start $(cat /container)
 
 service-secrets-aws:
   inherit: template-aws
