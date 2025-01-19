@@ -125,16 +125,25 @@ service-data:
     read-data: true
   backup:
     schedule: "02:00"
-    run-before: >-
-      while [-f /container]; do sleep 1; done
+    run-before: |-
+      touch /semaphore/{{ .Profile.Name }}
+      if [ $(find /semaphore -type f | grep -v {{ .Profile.Name }} | wc -l) -ge 1 ]; then
+        echo "Containers already stopped ..."
+        exit 0
+      fi
+      echo "Stop all service containers for backup:"
       docker ps -q --filter "label=backup.enable=true" > /container &&
       docker ps -q --filter "name=bitwarden" >> /container &&
-      echo "Stop all service containers for backup:" &&
       docker stop $(cat /container)
-    run-finally: >-
-      echo "Start all service containers stopped for backup:" &&
-      docker start $(cat /container) &&
-      rm /container
+    run-finally: |-
+      if [ $(find /semaphore -type f | grep -v {{ .Profile.Name }} | wc -l) -ge 1 ]; then
+        rm /semaphore/{{ .Profile.Name }}
+        echo "Another backup is running will not restart containers ..."
+        exit 0
+      fi
+      rm /semaphore/{{ .Profile.Name }}
+      echo "Start all service containers stopped for backup:"
+      docker start $(cat /container)
 
 service-secrets:
   inherit: template
@@ -217,7 +226,7 @@ service-data-aws:
     read-data: true
   backup:
     schedule: "Mo 02:00"
-    run-before: >-
+    run-before: |-
       touch /semaphore/{{ .Profile.Name }}
       if [ $(find /semaphore -type f | grep -v {{ .Profile.Name }} | wc -l) -ge 1 ]; then
         echo "Containers already stopped ..."
@@ -227,7 +236,7 @@ service-data-aws:
       docker ps -q --filter "label=backup.enable=true" > /container &&
       docker ps -q --filter "name=bitwarden" >> /container &&
       docker stop $(cat /container)
-    run-finally: >-
+    run-finally: |-
       if [ $(find /semaphore -type f | grep -v {{ .Profile.Name }} | wc -l) -ge 1 ]; then
         rm /semaphore/{{ .Profile.Name }}
         echo "Another backup is running will not restart containers ..."
