@@ -156,7 +156,7 @@ levin-aws:
   repository: "s3:https://s3.eu-central-1.amazonaws.com/jest-backup/levin/"
   password-file: "/run/secrets/levin_password"
   backup:
-    schedule: "Mon 02:00"
+    schedule: "Wed 02:00"
     source:
     - /levin
 levin-check-aws:
@@ -164,18 +164,18 @@ levin-check-aws:
   backup:
     schedule: ""
   check:
-    schedule: "Sun 22:00"
+    schedule: "*-*-01 22:00"
     schedule-permission: system
     schedule-log-wait: 30m
     schedule-log: /log/{{ .Profile.Name }}_backup
-    read-data: true
+    read-data-subset: 20%
 
 katrin-aws:
   inherit: template
   repository: "s3:https://s3.eu-central-1.amazonaws.com/jest-backup/katrin/"
   password-file: "/run/secrets/katrin_password"
   backup:
-    schedule: "Mon 02:00"
+    schedule: "Wed 02:00"
     source:
     - /katrin
 katrin-check-aws:
@@ -183,18 +183,18 @@ katrin-check-aws:
   backup:
     schedule: ""
   check:
-    schedule: "Sun 22:00"
+    schedule: "*-*-01 22:00"
     schedule-permission: system
     schedule-log-wait: 30m
     schedule-log: /log/{{ .Profile.Name }}_backup
-    read-data: true
+    read-data-subset: 20%
 
 share-aws:
   inherit: template-aws
   repository: "s3:https://s3.eu-central-1.amazonaws.com/jest-backup/share/"
   password-file: "/run/secrets/share_password"
   backup:
-    schedule: "Mon 02:00"
+    schedule: "Wed 02:00"
     source:
     - /share
 share-check-aws:
@@ -202,11 +202,11 @@ share-check-aws:
   backup:
     schedule: ""
   check:
-    schedule: "Sun 22:00"
+    schedule: "*-*-01 22:00"
     schedule-permission: system
     schedule-log-wait: 30m
     schedule-log: /log/{{ .Profile.Name }}_backup
-    read-data: true
+    read-data-subset: 20%
 
 service-data-aws:
   inherit: template-aws
@@ -215,7 +215,7 @@ service-data-aws:
   check:
     read-data: true
   backup:
-    schedule: "Mon 02:00"
+    schedule: "Wed 02:00"
     run-before: |-
       touch /semaphore/{{ .Profile.Name }}
       if [ $(find /semaphore -type f | grep -v {{ .Profile.Name }} | wc -l) -ge 1 ]; then
@@ -245,6 +245,6 @@ service-secrets-aws:
   check:
     read-data: true
   backup:
-    schedule: "Mon 02:00"
+    schedule: "Wed 02:00"
     source:
     - /service-secrets
