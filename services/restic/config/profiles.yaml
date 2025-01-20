@@ -99,7 +99,7 @@ public-check:
     schedule-permission: system
     schedule-log-wait: 30m
     schedule-log: /log/{{ .Profile.Name }}_backup
-    read-data-subset: 5%
+    read-data-subset: 250G
 
 service-data:
   inherit: template
