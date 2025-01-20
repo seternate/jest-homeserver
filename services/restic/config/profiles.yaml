@@ -44,7 +44,7 @@ levin-check:
   backup:
     schedule: ""
   check:
-    schedule: "Sun 22:00"
+    schedule: "Sun,Wed 22:00"
     schedule-permission: system
     schedule-log-wait: 30m
     schedule-log: /log/{{ .Profile.Name }}_backup
@@ -61,7 +61,7 @@ katrin-check:
   backup:
     schedule: ""
   check:
-    schedule: "Sun 22:00"
+    schedule: "Sun,Wed 22:00"
     schedule-permission: system
     schedule-log-wait: 30m
     schedule-log: /log/{{ .Profile.Name }}_backup
@@ -78,7 +78,7 @@ share-check:
   backup:
     schedule: ""
   check:
-    schedule: "Sun 22:00"
+    schedule: "Sun,Wed 22:00"
     schedule-permission: system
     schedule-log-wait: 30m
     schedule-log: /log/{{ .Profile.Name }}_backup
@@ -95,7 +95,7 @@ public-check:
   backup:
     schedule: ""
   check:
-    schedule: "Sun 22:00"
+    schedule: "Sun,Wed 22:00"
     schedule-permission: system
     schedule-log-wait: 30m
     schedule-log: /log/{{ .Profile.Name }}_backup
@@ -164,11 +164,10 @@ levin-check-aws:
   backup:
     schedule: ""
   check:
-    schedule: "*-*-01 22:00"
+    schedule: "*-*-01,15 22:00"
     schedule-permission: system
     schedule-log-wait: 30m
     schedule-log: /log/{{ .Profile.Name }}_backup
-    read-data-subset: 20%
 
 katrin-aws:
   inherit: template
@@ -183,11 +182,10 @@ katrin-check-aws:
   backup:
     schedule: ""
   check:
-    schedule: "*-*-01 22:00"
+    schedule: "*-*-01,15 22:00"
     schedule-permission: system
     schedule-log-wait: 30m
     schedule-log: /log/{{ .Profile.Name }}_backup
-    read-data-subset: 20%
 
 share-aws:
   inherit: template-aws
@@ -202,11 +200,10 @@ share-check-aws:
   backup:
     schedule: ""
   check:
-    schedule: "*-*-01 22:00"
+    schedule: "*-*-01,15 22:00"
     schedule-permission: system
     schedule-log-wait: 30m
     schedule-log: /log/{{ .Profile.Name }}_backup
-    read-data-subset: 20%
 
 service-data-aws:
   inherit: template-aws
