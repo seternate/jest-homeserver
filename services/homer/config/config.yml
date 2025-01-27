@@ -1,6 +1,7 @@
 ---
 title: Dashboard
 subtitle: Jest
+logo: icons/favicon.ico
 
 header: false
 footer: <p>Theme made with <span class="has-text-danger">❤️</span> by <a href="https://github.com/WalkxCode">Walkx</a></p>
