@@ -9,7 +9,7 @@ services:
       prometheus.port: 9130
     environment:
       UP_UNIFI_DEFAULT_URL: https://${UNIFI_GATEWAY_IP}
-      UP_UNIFI_DEFAULT_USER: file:///run/secrets/unpoller_user
+      UP_UNIFI_DEFAULT_USER: unpoller
       UP_UNIFI_DEFAULT_PASS: file:///run/secrets/unpoller_password
       UP_INFLUXDB_DISABLE: true
     healthcheck:
@@ -20,7 +20,6 @@ services:
       timeout: 5s
       retries: 3
     secrets:
-    - unpoller_user
     - unpoller_password
     networks:
     - prometheus
@@ -28,7 +27,5 @@ services:
 
 secrets:
 
-  unpoller_user:
-    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/unpoller}/user
   unpoller_password:
     file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/unpoller}/password
