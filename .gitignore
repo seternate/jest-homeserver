@@ -53,5 +53,6 @@
 !services/restic/config/
 !services/traefik/
 !services/traefik/config/
+!services/unpoller/
 
 !services/.env

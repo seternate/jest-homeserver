@@ -17,3 +17,4 @@ include:
 - path: ./renovate/docker-compose.yaml
 - path: ./restic/docker-compose.yaml
 - path: ./traefik/docker-compose.yaml
+- path: ./unpoller/docker-compose.yaml
