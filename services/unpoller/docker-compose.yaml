@@ -13,7 +13,7 @@ services:
       UP_UNIFI_DEFAULT_PASS: file:///run/secrets/unpoller_password
       UP_INFLUXDB_DISABLE: true
     healthcheck:
-      test: ["CMD-SHELL", "curl -s http://localhost:9130/health || exit 1"]
+      test: ["CMD", "/usr/bin/unpoller", "ready"]
       start_period: 60s
       start_interval: 5s
       interval: 60s
