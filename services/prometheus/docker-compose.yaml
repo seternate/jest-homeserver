@@ -2,7 +2,7 @@ services:
 
   # Image specifies healthchecks
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    image: gcr.io/cadvisor/cadvisor:v0.51.0
     container_name: cadvisor
     labels:
       traefik.enable: true
