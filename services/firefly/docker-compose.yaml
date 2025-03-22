@@ -27,7 +27,7 @@ services:
     restart: unless-stopped
 
   firefly:
-    image: fireflyiii/core:version-5.7.2
+    image: fireflyiii/core:version-5.7.18
     container_name: firefly
     labels:
       traefik.enable: true
@@ -96,7 +96,7 @@ services:
     - fireflydb
   
   fireflycron:
-    image: alpine:3.21.2
+    image: alpine:3.21.3
     container_name: fireflycron
     command: sh -c "echo \"0 3 * * * wget -qO- --no-check-certificate http://firefly:8080/api/v1/cron/$(cat /run/secrets/firefly_cron_token)\" | crontab - && crond -f -L /dev/stdout"
     secrets:
