@@ -27,7 +27,7 @@ services:
 
   # No health check needed - service runs as a scheduled cronjob, see renovatecron service above
   renovate:
-    image: renovate/renovate:39.106-full
+    image: renovate/renovate:39.211-full
     container_name: renovate
     # Prevents startup of container with docker compose up
     profiles: 
