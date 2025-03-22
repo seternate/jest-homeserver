@@ -2,7 +2,7 @@ services:
 
   # Image specifies healthchecks
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    image: gcr.io/cadvisor/cadvisor:v0.52.1
     container_name: cadvisor
     labels:
       traefik.enable: true
@@ -22,7 +22,7 @@ services:
     restart: unless-stopped
 
   prometheus:
-    image: prom/prometheus:v3.0.0
+    image: prom/prometheus:v3.2.1
     container_name: prometheus
     labels:
       traefik.enable: true
@@ -48,7 +48,7 @@ services:
 
   #No healthcheck possible
   nodeexporter:
-    image: quay.io/prometheus/node-exporter:v1.8.2
+    image: quay.io/prometheus/node-exporter:v1.9.0
     container_name: nodeexporter
     labels:
       prometheus.scrape: true
