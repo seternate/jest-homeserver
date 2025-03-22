@@ -2,7 +2,7 @@ services:
 
   # Image specifies healthchecks
   pyloadgluetun:
-    image: qmcgaw/gluetun:v3.39.1
+    image: qmcgaw/gluetun:v3.40.0
     container_name: pyloadgluetun
     labels:
       traefik.enable: true
