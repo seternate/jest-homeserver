@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How is Paulius doing?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            transition: background-color 0.5s ease;
+        }
+        .content {
+            font-size: 3em; /* Larger font size */
+            font-weight: bold;
+            color: white;
+            animation: fadeIn 1s ease-in-out;
+        }
+        /* Fade-in effect */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content" id="quote"></div>
+
+    <script>
+        // Array of possible quotes with added emojis (positive and negative)
+        const quotes = [
+            "Paulius is on fire 🔥🔥🔥",
+            "Paulius could have done more 😬🤷‍♂️",
+            "Paulius is unstoppable 🚀💥",
+            "Paulius did it again 🙌😎",
+            "Paulius is in beast mode 💪🔥",
+            "Paulius is the GOAT 🐐🏆",
+            "Paulius is making waves 🌊🔥",
+            "Paulius is on a roll 🍞🔥",
+            "Paulius has no chill 😜❄️",
+            "Paulius is crushing it 🏋️‍♂️💥",
+            // Negative quotes
+            "Paulius missed the mark 🎯❌",
+            "Paulius took a wrong turn 🛑💥",
+            "Paulius could have done better 😔🙅‍♂️",
+            "Paulius is slacking off 💤😴",
+            "Paulius dropped the ball 🤦‍♂️⚽",
+            "Paulius is in trouble 😬🚨",
+            "Paulius didn’t come through 👎😕",
+            "Paulius made a mess 😣🔴",
+            "Paulius failed to deliver ❌📉",
+            "Paulius needs to step it up 🔴⚠️"
+        ];
+
+        // Array of possible background colors
+        const colors = [
+            "#FF5733", // Red
+            "#33FF57", // Green
+            "#3357FF", // Blue
+            "#FFD700", // Yellow
+            "#8A2BE2", // Purple
+            "#FF6347", // Tomato Red
+            "#20B2AA", // Light Sea Green
+            "#FF1493"  // Deep Pink
+        ];
+
+        // Select a random quote
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        // Select a random color
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+        // Set the content and background color
+        document.getElementById("quote").innerText = randomQuote;
+        document.body.style.backgroundColor = randomColor;
+    </script>
+</body>
+</html>
