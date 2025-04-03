@@ -13,6 +13,7 @@
 !ansible.cfg
 !*.sh
 !*.js
+!*.html
 
 !ansible/
 !ansible/jest/
@@ -42,6 +43,8 @@
 !services/homer/
 !services/homer/config/
 !services/homer/config/**
+!services/paulius/
+!services/paulius/html/
 !services/immich/
 !services/portainer/
 !services/prometheus/
