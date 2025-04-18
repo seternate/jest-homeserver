@@ -1,7 +1,7 @@
 services:
 
   restic:
-    image: ttionya/resticprofile:0.29.1-docker
+    image: ttionya/resticprofile:0.30.0-docker
     container_name: restic
     environment:
       TZ: Europe/Berlin
