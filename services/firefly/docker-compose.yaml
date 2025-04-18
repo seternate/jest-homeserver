@@ -93,8 +93,9 @@ services:
     - firefly
     restart: unless-stopped
     depends_on:
-    - fireflydb
-  
+      fireflydb:
+        condition: service_healthy
+
   fireflycron:
     image: alpine:3.21.3
     container_name: fireflycron
