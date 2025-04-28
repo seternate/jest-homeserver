@@ -1,7 +1,7 @@
 services:
 
   dockerimagepruner:
-    image: docker:28.0.4-cli-alpine3.21
+    image: docker:28.1.1-cli-alpine3.21
     container_name: dockerimagepruner
     entrypoint: /bin/sh
     command:
