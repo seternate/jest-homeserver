@@ -1,7 +1,7 @@
 services:
 
   grafana:
-    image: grafana/grafana-enterprise:11.6.0
+    image: grafana/grafana-enterprise:11.6.1
     container_name: grafana
     labels:
       traefik.enable: true
