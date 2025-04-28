@@ -21,6 +21,7 @@ services:
     - ./config/renovate.sh:/scripts/renovate.sh:ro
     - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/prometheus}/nodeexporter:/prometheus
     - ${PWD}:${PWD}:ro
+    - ${SECRET_FOLDER_PATH}/renovate:${SECRET_FOLDER_PATH}/renovate:ro
     networks:
     - renovatecron
     restart: unless-stopped
