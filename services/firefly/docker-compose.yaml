@@ -1,7 +1,7 @@
 services:
 
   fireflydb:
-    image: postgres:10
+    image: postgres:17
     container_name: fireflydb
     labels:
       backup.enable: true
