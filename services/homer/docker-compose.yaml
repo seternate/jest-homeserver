@@ -2,7 +2,7 @@ services:
 
   # Image specifies healthchecks
   dashboard:
-    image: b4bz/homer:v25.04.1
+    image: b4bz/homer:v25.05.1
     container_name: dashboard
     labels:
       traefik.enable: true
