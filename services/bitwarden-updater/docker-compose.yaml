@@ -1,7 +1,7 @@
 services:
 
   bitwardenupdater:
-    image: docker:28.1.1-cli-alpine
+    image: docker:28.1.1-cli
     container_name: bitwardenupdater
     entrypoint: /bin/sh
     command:
