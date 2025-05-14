@@ -27,7 +27,7 @@ services:
     restart: unless-stopped
 
   authentikredis:
-    image: redis:7.4.3-alpine
+    image: redis:8.0.1-alpine
     container_name: authentikredis
     labels:
       backup.enable: true
