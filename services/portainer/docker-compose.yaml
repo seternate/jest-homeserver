@@ -1,7 +1,7 @@
 services:
 
   portainer:
-    image: portainer/portainer-ce:2.29.2-alpine
+    image: portainer/portainer-ce:2.30.1-alpine
     container_name: portainer
     labels:
       traefik.enable: true
