@@ -27,7 +27,7 @@ services:
     restart: unless-stopped
 
   firefly:
-    image: fireflyiii/core:version-6.2.12
+    image: fireflyiii/core:version-6.2.16
     container_name: firefly
     labels:
       traefik.enable: true
