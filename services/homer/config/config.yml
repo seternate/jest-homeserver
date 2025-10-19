@@ -149,7 +149,7 @@ services:
   - name: Pi-hole
     logo: assets/tools/pihole.png
     subtitle: Adblocker for home networks
-    url: https://pihole.jest-home.de
+    url: https://pihole.jest-home.de/admin
     target: _blank
   - name: Traefik
     logo: assets/tools/traefik.png
