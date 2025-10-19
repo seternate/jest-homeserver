@@ -56,6 +56,8 @@ services:
     container_name: authentikworker
     labels:
       backup.enable: true
+      prometheus.scrape: true
+      prometheus.port: 9300
     environment:
       AUTHENTIK_REDIS__HOST: authentikredis
       AUTHENTIK_POSTGRESQL__HOST: authentikdb
@@ -86,9 +88,31 @@ services:
     - authentik_email_password
     networks:
     - authentik
+    - prometheus
     depends_on:
     - authentikdb
     - authentikredis
+    restart: unless-stopped
+
+  # Image specifies healthchecks
+  authentikldap:
+    image: ghcr.io/goauthentik/ldap:2025.8.4
+    container_name: authentikldap
+    labels:
+      prometheus.scrape: true
+      prometheus.port: 9300
+    environment:
+      AUTHENTIK_HOST: http://authentik:9000
+      AUTHENTIK_INSECURE: "true"
+      AUTHENTIK_TOKEN: file:///run/secrets/authentik_ldap_token
+    secrets:
+    - authentik_ldap_token
+    networks:
+    - authentik
+    - authentikldap
+    - prometheus
+    depends_on:
+    - authentik
     restart: unless-stopped
 
   # Image specifies healthchecks
@@ -151,6 +175,9 @@ secrets:
     file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/authentik}/secret_key
   authentik_email_password:
     file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/authentik}/email_password
+  authentik_ldap_token:
+    file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/authentik}/ldap_token
 
 networks:
   authentik:
+  authentikldap:

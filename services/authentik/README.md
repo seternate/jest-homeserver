@@ -8,3 +8,4 @@ The following secrets must be provided to the same folder as the docker-compose.
 - db_password
 - email_password
 - secret_key
+- ldap_token
