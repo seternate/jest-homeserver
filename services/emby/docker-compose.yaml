@@ -30,5 +30,6 @@ services:
     devices:
     - /dev/dri:/dev/dri # VAAPI/NVDEC/NVENC render nodes
     networks:
+    - authentikldap
     - traefik
     restart: unless-stopped
