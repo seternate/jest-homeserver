@@ -2,7 +2,7 @@ services:
 
   # Image specifies healthchecks
   filebrowser:
-    image: filebrowser/filebrowser:v2.32.0
+    image: filebrowser/filebrowser:v2.44.1
     container_name: filebrowser
     labels:
       traefik.enable: true
