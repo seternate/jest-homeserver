@@ -1,7 +1,7 @@
 services:
 
   emby:
-    image: emby/embyserver:4.9.1.80
+    image: emby/embyserver:4.9.1.90
     container_name: emby
     labels:
       traefik.enable: true
