@@ -48,7 +48,7 @@ services:
 
   #No healthcheck possible
   nodeexporter:
-    image: quay.io/prometheus/node-exporter:v1.9.1
+    image: quay.io/prometheus/node-exporter:v1.10.2
     container_name: nodeexporter
     labels:
       prometheus.scrape: true
