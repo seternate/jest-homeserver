@@ -96,7 +96,7 @@ services:
 
   # Image specifies healthchecks
   authentikldap:
-    image: ghcr.io/goauthentik/ldap:2025.8.4
+    image: ghcr.io/goauthentik/ldap:2025.10.1
     container_name: authentikldap
     labels:
       prometheus.scrape: true
