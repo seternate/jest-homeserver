@@ -52,7 +52,7 @@ services:
   # Image specifies healthchecks
   # NEVER set TZ: https://version-2022-11.goauthentik.io/docs/installation/docker-compose#explanation
   authentikworker:
-    image: ghcr.io/goauthentik/server:2025.8.4
+    image: ghcr.io/goauthentik/server:2025.10.1
     container_name: authentikworker
     labels:
       backup.enable: true
@@ -118,7 +118,7 @@ services:
   # Image specifies healthchecks
   # NEVER set TZ: https://version-2022-11.goauthentik.io/docs/installation/docker-compose#explanation
   authentik:
-    image: ghcr.io/goauthentik/server:2025.8.4
+    image: ghcr.io/goauthentik/server:2025.10.1
     container_name: authentik
     labels:
       traefik.enable: true
