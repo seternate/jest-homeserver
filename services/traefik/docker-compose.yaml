@@ -1,7 +1,7 @@
 services:
   
   traefik:
-    image: traefik:v3.5.3
+    image: traefik:v3.6.1
     container_name: traefik
     labels:
       traefik.enable: true
@@ -68,3 +68,4 @@ networks:
   traefik:
     name: services_traefik
     external: true
+
