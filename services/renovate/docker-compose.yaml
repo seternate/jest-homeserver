@@ -6,7 +6,7 @@ services:
     entrypoint: /bin/sh
     command:
     - -c
-    - "echo \"0 8 * * 3 /scripts/renovate.sh\" | crontab - && crond -f -L /dev/stdout"
+    - "echo \"0 8 * * * /scripts/renovate.sh\" | crontab - && crond -f -L /dev/stdout"
     environment:
       DOCKER_COMPOSE_PATH: ${PWD}
     healthcheck:
