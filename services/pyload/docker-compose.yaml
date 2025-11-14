@@ -32,7 +32,7 @@ services:
     restart: unless-stopped
 
   pyload:
-    image: linuxserver/pyload-ng:develop-version-c5cb9814
+    image: linuxserver/pyload-ng:develop-version-adf33b94
     container_name: pyload
     labels:
       backup.enable: true
@@ -64,3 +64,4 @@ secrets:
     file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/pyload}/client.crt
   openvpn_clientkey:
     file: ${SECRET_FOLDER_PATH:-.}${SECRET_FOLDER_PATH:+/pyload}/client.key
+
