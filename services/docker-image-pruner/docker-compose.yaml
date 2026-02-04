@@ -1,7 +1,7 @@
 services:
 
   dockerimagepruner:
-    image: docker:29.0.0-cli
+    image: docker:29.2.1-cli
     container_name: dockerimagepruner
     entrypoint: /bin/sh
     command:

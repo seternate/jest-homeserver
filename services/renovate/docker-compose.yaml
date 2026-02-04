@@ -1,7 +1,7 @@
 services:
 
   renovatecron:
-    image: docker:29.0.0-cli
+    image: docker:29.2.1-cli
     container_name: renovatecron
     entrypoint: /bin/sh
     command:
