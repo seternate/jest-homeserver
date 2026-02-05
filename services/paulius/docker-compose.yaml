@@ -1,7 +1,7 @@
 services:
   
   paulius:
-    image: nginx:1.29.3-alpine
+    image: nginx:1.29.5-alpine
     container_name: paulius
     labels:
       traefik.enable: true
