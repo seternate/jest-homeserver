@@ -1,7 +1,7 @@
 services:
 
   fireflydb:
-    image: postgres:10
+    image: postgres:18
     container_name: fireflydb
     labels:
       backup.enable: true
@@ -17,7 +17,7 @@ services:
       timeout: 5s
       retries: 3
     volumes:
-      - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/firefly}/database:/var/lib/postgresql/data
+      - ${DATA_FOLDER_PATH:-.}${DATA_FOLDER_PATH:+/firefly}/database:/var/lib/postgresql
     secrets:
     - firefly_db_user
     - firefly_db_password
