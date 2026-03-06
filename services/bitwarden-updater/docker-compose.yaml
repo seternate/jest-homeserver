@@ -1,7 +1,7 @@
 services:
 
   bitwardenupdater:
-    image: docker:29.2.1-cli
+    image: docker:29.3.0-cli
     container_name: bitwardenupdater
     entrypoint: /bin/sh
     command:
