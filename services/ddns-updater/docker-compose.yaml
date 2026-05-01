@@ -2,7 +2,7 @@ services:
 
   # Image specifies healthchecks
   ddnsupdater:
-    image: ghcr.io/qdm12/ddns-updater:v2.9.0
+    image: ghcr.io/qdm12/ddns-updater:v2.10.0
     container_name: ddnsupdater
     labels:
       traefik.enable: true
