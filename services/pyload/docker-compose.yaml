@@ -32,7 +32,7 @@ services:
     restart: unless-stopped
 
   pyload:
-    image: linuxserver/pyload-ng:develop-version-0357683d
+    image: linuxserver/pyload-ng:develop-version-172ca1a9
     container_name: pyload
     labels:
       backup.enable: true
