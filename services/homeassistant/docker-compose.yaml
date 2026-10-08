@@ -1,7 +1,7 @@
 services:
 
   homeassistant:
-    image: ghcr.io/home-assistant/home-assistant:2026.9.3
+    image: ghcr.io/home-assistant/home-assistant:2026.10.0
     container_name: homeassistant
     labels:
       traefik.enable: true
