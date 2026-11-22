@@ -9,9 +9,7 @@ include:
 - path: ./filebrowser/docker-compose.yaml
 - path: ./firefly/docker-compose.yaml
 - path: ./grafana/docker-compose.yaml
-- path: ./homeassistant/docker-compose.yaml
 - path: ./homer/docker-compose.yaml
-- path: ./paulius/docker-compose.yaml
 - path: ./portainer/docker-compose.yaml
 - path: ./prometheus/docker-compose.yaml
 - path: ./pyload/docker-compose.yaml
