@@ -50,21 +50,13 @@ links:
   icon: fas fa-circle-down
   url: https://ddl-warez.cc/
   target: _blank
-- name: Github
+- name: GitHub
   icon: fab fa-github
   url: https://github.com/seternate
-  target: _blank
-- name: Netflix
-  icon: fas fa-n
-  url: https://netflix.com
   target: _blank
 - name: Serienjunkies
   icon: fas fa-tv
   url: https://serienjunkies.org
-  target: _blank
-- name: Youtube
-  icon: fab fa-youtube
-  url: https://youtube.com
   target: _blank
 
 services:
@@ -106,11 +98,6 @@ services:
     logo: assets/tools/firefly.png
     subtitle: Personal finances manager
     url: https://firefly.jest-home.de
-    target: _blank
-  - name: Homeassistant
-    logo: assets/tools/homeassistant.png
-    subtitle: Open source home automation
-    url: https://homeassistant.jest-home.de
     target: _blank
 - name: Monitoring
   icon: fas fa-chart-line
